@@ -1,0 +1,18 @@
+smtp:
+  server: "your_smtp_server"
+  port: 587
+  user: "your_email@example.com"
+  password: "your_password"
+  to_email: "recipient@example.com"
+
+telegram:
+  bot_token: "your_bot_token"
+  chat_id: "your_chat_id"
+
+camera:
+  url: "rtsp://admin:password@Ip:Port/stream"
+  id: "camera_id"
+
+client:
+  name: "Logistica Norte"
+  emergency_numbers: "Bomberos: 123, Policía: 456, Ambulancia: 789"
