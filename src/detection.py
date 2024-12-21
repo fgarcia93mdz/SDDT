@@ -11,7 +11,7 @@ class FireDetection:
         self.camera_id = config['camera']['id']
         self.client_name = config['client']['name']
         self.emergency_numbers = config['client']['emergency_numbers']
-        self.model = YOLO('BestModel.pt')
+        self.model = YOLO('models/BestModel.pt')
         self.classnames = ['Fire', 'Smoke']
         self.colors = {'Fire': (0, 0, 255), 'Smoke': (255, 0, 0)}
 
