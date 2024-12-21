@@ -1,3 +1,5 @@
+mode: "development"  # Cambia a "production" para usar la cámara
+
 smtp:
   server: "your_smtp_server"
   port: 587

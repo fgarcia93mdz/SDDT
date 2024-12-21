@@ -7,6 +7,7 @@ class FireDetection:
     def __init__(self, config_path):
         with open(config_path, 'r') as file:
             config = yaml.safe_load(file)
+        self.mode = config['mode']
         self.camera_url = config['camera']['url']
         self.camera_id = config['camera']['id']
         self.client_name = config['client']['name']
@@ -14,9 +15,14 @@ class FireDetection:
         self.model = YOLO('models/BestModel.pt')
         self.classnames = ['Fire', 'Smoke']
         self.colors = {'Fire': (0, 0, 255), 'Smoke': (255, 0, 0)}
+        self.sample_video_path = 'assets/samples/firevideo3.mp4'
 
     def detect_fire(self):
-        cap = cv2.VideoCapture(self.camera_url)
+        if self.mode == 'development':
+            cap = cv2.VideoCapture(self.sample_video_path)
+        else:
+            cap = cv2.VideoCapture(self.camera_url)
+
         if not cap.isOpened():
             print("Error: Cannot open video stream.")
             return
