@@ -15,7 +15,7 @@ class EmailService:
         self.smtp_password = config['smtp']['password']
         self.to_email = config['smtp']['to_email']
 
-    def send_email(self, subject, body, image_path):
+    def send_email(self, subject, body, image_path=None):
         msg = MIMEMultipart()
         msg['From'] = self.smtp_user
         msg['To'] = self.to_email
@@ -23,13 +23,14 @@ class EmailService:
 
         msg.attach(MIMEText(body, 'plain'))
 
-        with open(image_path, 'rb') as f:
-            img_data = f.read()
-        img_type = imghdr.what(None, img_data)
-        if img_type is None:
-            raise TypeError('Could not guess image MIME subtype')
-        image = MIMEImage(img_data, _subtype=img_type, name='incendio.jpg')
-        msg.attach(image)
+        if image_path:
+            with open(image_path, 'rb') as f:
+                img_data = f.read()
+            img_type = imghdr.what(None, img_data)
+            if img_type is None:
+                raise TypeError('Could not guess image MIME subtype')
+            image = MIMEImage(img_data, _subtype=img_type, name='incendio.jpg')
+            msg.attach(image)
 
         try:
             server = smtplib.SMTP(self.smtp_server, self.smtp_port)
