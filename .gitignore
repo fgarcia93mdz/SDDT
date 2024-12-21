@@ -169,3 +169,4 @@ cython_debug/
 .pypirc
 test_camera.py
 test_chatbot.py
+get_chat_id.py
