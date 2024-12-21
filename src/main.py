@@ -1,5 +1,10 @@
-import asyncio
+import sys
 import os
+
+# Agregar el directorio raíz del proyecto al PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+import asyncio
 from email_service import EmailService
 from telegram_service import TelegramService
 from fire_detection import FireDetection
