@@ -1,4 +1,5 @@
 import asyncio
+import os
 from email_service import EmailService
 from telegram_service import TelegramService
 from detection import FireDetection
@@ -41,6 +42,13 @@ def main():
         *Sistema de Detección de Incendios*
         """
         asyncio.run(telegram_service.send_telegram_message(telegram_message, image_path))
+        
+        # Eliminar la imagen después de enviarla
+        try:
+            os.remove(image_path)
+            print(f"Imagen {image_path} eliminada correctamente.")
+        except Exception as e:
+            print(f"Error al eliminar la imagen {image_path}: {e}")
 
 if __name__ == "__main__":
     main()
