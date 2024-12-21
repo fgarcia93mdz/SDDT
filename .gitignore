@@ -168,3 +168,4 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 test_camera.py
+test_chatbot.py
