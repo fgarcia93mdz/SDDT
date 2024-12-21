@@ -51,10 +51,10 @@ def test_db():
         db.commit()
         print(f"Cliente actualizado: {client_from_db}")
 
-        # Eliminar la cámara
-        db.delete(camera_from_db)
-        db.commit()
-        print(f"Cámara eliminada: {camera_from_db}")
+        # # Eliminar la cámara
+        # db.delete(camera_from_db)
+        # db.commit()
+        # print(f"Cámara eliminada: {camera_from_db}")
 
     finally:
         db.close()

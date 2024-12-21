@@ -42,7 +42,7 @@ class Camera(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), index=True)
-    ip = Column(String(500), index=True)  # Aumentar la longitud de la columna ip
+    ip = Column(String(1000), index=True)  # Aumentar la longitud de la columna ip
     number = Column(String(50), index=True)
     client_id = Column(Integer, ForeignKey('sddt.clients.id'))
     client = relationship("Client", back_populates="cameras")
