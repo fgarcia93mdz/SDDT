@@ -18,3 +18,11 @@ camera:
 client:
   name: "Logistica Norte"
   emergency_numbers: "Bomberos: 123, Policía: 456, Ambulancia: 789"
+
+  # Configuración de la base de datos
+database:
+  user: ""
+  password: ""
+  host: "127.0.0.1"
+  database: ""
+  dialect: ""
