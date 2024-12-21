@@ -27,3 +27,16 @@
 3. Instala las dependencias:
    ```sh
    pip install -r requirements.txt     
+## Uso
+1. Ejecuta el script principal:
+   ```sh
+   python main.py
+2. Configura tu dirección de correo electrónico y cuenta de Telegram para recibir alertas.
+   ```sh
+   smtp_server = 'smtp.gmail.com'
+   smtp_port = 587
+   smtp_user = '...'
+   smtp_password = '...'
+   to_email = '...'
+   bot_token = '...'
+   chat_id = '...'   
