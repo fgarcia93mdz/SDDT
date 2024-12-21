@@ -3,6 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import yaml
+import imghdr
 
 class EmailService:
     def __init__(self, config_path):
@@ -24,7 +25,10 @@ class EmailService:
 
         with open(image_path, 'rb') as f:
             img_data = f.read()
-        image = MIMEImage(img_data, name='incendio.jpg')
+        img_type = imghdr.what(None, img_data)
+        if img_type is None:
+            raise TypeError('Could not guess image MIME subtype')
+        image = MIMEImage(img_data, _subtype=img_type, name='incendio.jpg')
         msg.attach(image)
 
         try:
