@@ -3,3 +3,4 @@ ultralytics
 pyyaml
 python-dotenv
 python-telegram-bot
+pytest
