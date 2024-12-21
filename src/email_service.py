@@ -28,6 +28,7 @@ class EmailService:
                 img_data = f.read()
             img_type = imghdr.what(None, img_data)
             if img_type is None:
+                print(f"Could not guess image MIME subtype for image at {image_path}")
                 raise TypeError('Could not guess image MIME subtype')
             image = MIMEImage(img_data, _subtype=img_type, name='incendio.jpg')
             msg.attach(image)
