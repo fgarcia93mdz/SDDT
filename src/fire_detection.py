@@ -1,16 +1,12 @@
 from ultralytics import YOLO
 import cv2
 import math
-import yaml
 from cryptography.fernet import Fernet
 from src.database import SessionLocal, Camera, Client
 
 class FireDetection:
-    def __init__(self, config_path):
-        with open(config_path, 'r') as file:
-            config = yaml.safe_load(file)
-        self.mode = config['mode']
-        self.camera_id = config['camera']['id']
+    def __init__(self, camera_id):
+        self.camera_id = camera_id
         self.model = YOLO('models/BestModel.pt')
         self.classnames = ['Fire', 'Smoke']
         self.colors = {'Fire': (0, 0, 255), 'Smoke': (255, 0, 0)}
@@ -33,7 +29,9 @@ class FireDetection:
                         'location': client.location,
                         'emergency_contacts': client.emergency_contacts
                     }
-                    return camera.ip_encrypted, client_data  # Desencriptar la IP y obtener los datos del cliente
+                    # Desencriptar la IP de la cámara
+                    decrypted_ip = Fernet(key).decrypt(camera.ip.encode()).decode()
+                    return decrypted_ip, client_data
                 else:
                     raise ValueError(f"No se encontró el cliente con ID {camera.client_id}")
             else:
@@ -42,10 +40,7 @@ class FireDetection:
             db.close()
 
     def detect_fire(self):
-        if self.mode == 'development':
-            cap = cv2.VideoCapture(self.sample_video_path)
-        else:
-            cap = cv2.VideoCapture(self.camera_url)
+        cap = cv2.VideoCapture(self.sample_video_path if self.mode == 'development' else self.camera_url)
 
         if not cap.isOpened():
             print("Error: Cannot open video stream.")
