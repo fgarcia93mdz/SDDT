@@ -2,20 +2,44 @@ from ultralytics import YOLO
 import cv2
 import math
 import yaml
+from cryptography.fernet import Fernet
+from src.database import SessionLocal, Camera, Client
 
 class FireDetection:
     def __init__(self, config_path):
         with open(config_path, 'r') as file:
             config = yaml.safe_load(file)
         self.mode = config['mode']
-        self.camera_url = config['camera']['url']
         self.camera_id = config['camera']['id']
-        self.client_name = config['client']['name']
-        self.emergency_numbers = config['client']['emergency_numbers']
         self.model = YOLO('models/BestModel.pt')
         self.classnames = ['Fire', 'Smoke']
         self.colors = {'Fire': (0, 0, 255), 'Smoke': (255, 0, 0)}
         self.sample_video_path = 'assets/samples/firevideo3.mp4'
+
+        # Desencriptar la URL de la cámara y obtener los datos del cliente desde la base de datos
+        self.camera_url, self.client_data = self.get_camera_and_client_data(self.camera_id)
+
+    def get_camera_and_client_data(self, camera_id):
+        db = SessionLocal()
+        try:
+            camera = db.query(Camera).filter(Camera.id == camera_id).first()
+            if camera:
+                client = db.query(Client).filter(Client.id == camera.client_id).first()
+                if client:
+                    client_data = {
+                        'name': client.name,
+                        'email': client.email,
+                        'telegram_id': client.telegram_id,
+                        'location': client.location,
+                        'emergency_contacts': client.emergency_contacts
+                    }
+                    return camera.ip_encrypted, client_data  # Desencriptar la IP y obtener los datos del cliente
+                else:
+                    raise ValueError(f"No se encontró el cliente con ID {camera.client_id}")
+            else:
+                raise ValueError(f"No se encontró la cámara con ID {camera_id}")
+        finally:
+            db.close()
 
     def detect_fire(self):
         if self.mode == 'development':

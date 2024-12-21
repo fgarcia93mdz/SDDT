@@ -13,12 +13,11 @@ class EmailService:
         self.smtp_port = config['smtp']['port']
         self.smtp_user = config['smtp']['user']
         self.smtp_password = config['smtp']['password']
-        self.to_email = config['smtp']['to_email']
 
-    def send_email(self, subject, body, image_path=None):
+    def send_email(self, subject, body, to_email, image_path=None):
         msg = MIMEMultipart()
         msg['From'] = self.smtp_user
-        msg['To'] = self.to_email
+        msg['To'] = to_email
         msg['Subject'] = subject
 
         msg.attach(MIMEText(body, 'plain'))
@@ -38,7 +37,7 @@ class EmailService:
             server.starttls()
             server.login(self.smtp_user, self.smtp_password)
             text = msg.as_string()
-            server.sendmail(self.smtp_user, self.to_email, text)
+            server.sendmail(self.smtp_user, to_email, text)
             server.quit()
             print("Email sent successfully")
         except Exception as e:
