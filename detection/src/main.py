@@ -2,13 +2,14 @@ import sys
 import os
 import asyncio
 import yaml
-from email_service import EmailService
-from telegram_service import TelegramService
-from fire_detection import FireDetection
-from src.database import SessionLocal, Client
 
 # Agregar el directorio raíz del proyecto al PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from email_service import EmailService
+from telegram_service import TelegramService
+from fire_detection import FireDetection
+from src.database import SessionLocal, Camera
 
 def main():
     config_path = 'config/config.yaml'
@@ -18,27 +19,27 @@ def main():
     # Obtener la configuración de la base de datos
     db = SessionLocal()
     try:
-        client = db.query(Client).filter(Client.id == 1).first()  # Ajusta el ID del cliente según sea necesario
-        if not client:
-            raise ValueError("No se encontró el cliente con ID 1")
+        camera_id = 1  # Ajusta el ID de la cámara según sea necesario
+        camera = db.query(Camera).filter(Camera.id == camera_id).first()
+        if not camera:
+            raise ValueError(f"No se encontró la cámara con ID {camera_id}")
 
         email_service = EmailService(config_path)
         telegram_service = TelegramService(config_path)
-        fire_detection = FireDetection(camera_id=1)  # Ajusta el ID de la cámara según sea necesario
+        fire_detection = FireDetection(camera_id=camera_id, encryption_key=config['encryption_key'], mode=config['mode'])
 
         image_path = fire_detection.detect_fire()
         if image_path:
             client_data = fire_detection.client_data
-            subject = f"Alerta de Incendio para {client_data['name']}"
+            subject = f"Alerta de Incendio"
             body = f"""
-            Alerta de Incendio para {client_data['name']}
+            🚨 *Alerta de Incendio* 🚨
             
-            Se ha detectado fuego en el video.
-            Por favor, tome las medidas necesarias de inmediato.
+            Hola, {client_data['name']}, se ha detectado fuego en el video.
             
-            ⚠️ Llame a los servicios de emergencia:
-            {client_data['emergency_contacts']}
-            
+            ⚠️ Llame a los servicios de emergencia e indique la ubicación:
+            {client_data['emergency_contacts']} - Ubicación: {client_data['location']}
+               
             Este mensaje ha sido generado automáticamente por el sistema de detección de incendios.
             
             Saludos,
@@ -48,10 +49,10 @@ def main():
             telegram_message = f"""
             🚨 *Alerta de Incendio* 🚨
             
-            Se ha detectado fuego en el video.
+            Hola, {client_data['name']}, se ha detectado fuego en el video.
             
-            ⚠️ Llame a los servicios de emergencia:
-            {client_data['emergency_contacts']}
+            ⚠️ Llame a los servicios de emergencia e indique la ubicación:
+            {client_data['emergency_contacts']} - Ubicación: {client_data['location']}
             
             Este mensaje ha sido generado automáticamente por el sistema de detección de incendios.
             

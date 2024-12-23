@@ -2,11 +2,14 @@ from ultralytics import YOLO
 import cv2
 import math
 from cryptography.fernet import Fernet
-from src.database import SessionLocal, Camera, Client
+from src.database import SessionLocal, Camera, Client, AlertHistory
+from datetime import datetime
 
 class FireDetection:
-    def __init__(self, camera_id):
+    def __init__(self, camera_id, encryption_key, mode='development'):
         self.camera_id = camera_id
+        self.encryption_key = encryption_key
+        self.mode = mode  # Definir la variable mode
         self.model = YOLO('models/BestModel.pt')
         self.classnames = ['Fire', 'Smoke']
         self.colors = {'Fire': (0, 0, 255), 'Smoke': (255, 0, 0)}
@@ -30,7 +33,7 @@ class FireDetection:
                         'emergency_contacts': client.emergency_contacts
                     }
                     # Desencriptar la IP de la cámara
-                    decrypted_ip = Fernet(key).decrypt(camera.ip.encode()).decode()
+                    decrypted_ip = Fernet(self.encryption_key).decrypt(camera.ip.encode()).decode()
                     return decrypted_ip, client_data
                 else:
                     raise ValueError(f"No se encontró el cliente con ID {camera.client_id}")
@@ -91,7 +94,28 @@ class FireDetection:
                         cv2.imwrite(image_path, frame)
                         cv2.imshow('Incendio Detectado', frame)
                         cv2.waitKey(5000)
+
+                        # Almacenar la alerta en la base de datos
+                        self.save_alert_to_db()
+
                         return image_path
 
         cap.release()
         cv2.destroyAllWindows()
+
+    def save_alert_to_db(self):
+        db = SessionLocal()
+        try:
+            alert = AlertHistory(
+                camera_id=self.camera_id,
+                timestamp=datetime.utcnow(),
+                alert_type='Fire'
+            )
+            db.add(alert)
+            db.commit()
+            print("Alerta almacenada en la base de datos.")
+        except Exception as e:
+            db.rollback()
+            print(f"Error al almacenar la alerta en la base de datos: {e}")
+        finally:
+            db.close()
