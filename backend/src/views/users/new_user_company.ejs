@@ -1,0 +1,24 @@
+<%- include('../../views/header_email.ejs') %>
+<p style="margin-bottom: 20px; font-size: 18px;">
+  ¡Hola <strong><%= name %></strong>, un gusto de saludarlos!
+</p>
+<p style="margin-bottom: 20px">
+  Desde Terminal Digital, les damos la bienvenida al sitio de gestión de
+  publicidad.
+</p>
+<p style="margin-bottom: 20px">
+  <strong>-</strong> Usuario: <strong><%= newCompany.name %></strong>.
+</p>
+<p style="margin-bottom: 20px">
+  <strong>-</strong> Contraseña inicial: <strong><%= passwordRandom %></strong>.
+</p>
+<p style="margin-bottom: 20px">
+  Les recordamos que la contraseña deberá de cambiarse al iniciar sesión por
+  primera vez
+</p>
+<p style="margin-bottom: 20px">
+  Para ingresar a la plataforma, haz click
+  <a href="<%= process.env.LOGIN_URL %>">Terminal Digital</a>
+</p>
+<p style="margin-bottom: 20px">¡Att. Soporte - Terminal Digital!</p>
+<%- include('../../views/footer_email') %>

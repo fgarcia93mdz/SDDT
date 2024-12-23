@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.io Test</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+	document.addEventListener("DOMContentLoaded", () => {
+	  const socket = io();
+
+	  socket.on("connect", () => {
+		console.log("Conectado al servidor");
+
+		socket.emit("message", "Hola, servidor!");
+
+		socket.on("response", (data) => {
+		  console.log("Respuesta del servidor: ", data);
+		});
+	  });
+
+	  socket.on("disconnect", () => {
+		console.log("Desconectado del servidor");
+	  });
+	});
+  </script>
+</head>
+<body>
+  <h1>Prueba de Socket.io</h1>
+</body>
+</html>

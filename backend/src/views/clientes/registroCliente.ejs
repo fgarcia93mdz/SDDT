@@ -1,0 +1,28 @@
+<%- include('../../views/header_email.ejs') %>
+
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+
+  <p style="margin-bottom: 20px; font-size: 18px; color: #333;">
+    ¡Hola <strong><%= cliente.nombre %></strong>!
+  </p>
+  <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+    Estamos emocionados de darte la bienvenida a nuestro exclusivo servicio de guardarropas. ¡Gracias por elegirnos!
+  </p>
+  <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+    Por favor, recuerda presentar tu DNI o una constancia para retirar tu prenda. Queremos asegurarnos de que tu experiencia sea segura y sin contratiempos.
+  </p>
+  <% if (cliente.estado_clientes_id === 1) { %>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555; text-align: center;">
+      Valoramos profundamente tu lealtad como socio. Estamos aquí para asegurarnos de que tu visita al Casino Trilenium sea inolvidable.
+    </p>
+  <% } else if (cliente.estado_clientes_id === 2) { %>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      ¿Aún no eres socio? Te invitamos a acercarte al stand de entrada y registrarte. Descubre los beneficios exclusivos que hemos preparado para ti.
+    </p>
+  <% } %>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      Equipo de Casino Trilenium.
+    </p>
+</div>
+
+<%- include('../../views/footer_email') %>

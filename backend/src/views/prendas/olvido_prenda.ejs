@@ -1,0 +1,47 @@
+<%- include('../../views/header_email.ejs') %>
+
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+
+    <p style="margin-bottom: 20px; font-size: 18px; color: #333;">
+      ¡Hola <strong>
+        <%=cliente.nombre%>,
+      </strong> un gusto de saludarte!
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555; text-align: center;">
+      ¡Gracias por confiar en nosotros! 
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      Te informamos que olvidaste <% if (tieneMasDeDosDetalles) { %>tus prendas <% } else { %>tu prenda <% } %> y se
+            encuentra al resguardo en nuestro guardarropas.
+    </p>
+    <table style="width:100%; border-collapse: collapse;" border="1">
+      <thead>
+      <tr>
+        <th style="padding: 8px; text-align: center;">Prenda</th>
+        <th style="padding: 8px; text-align: center;">Ubicación</th>
+      </tr>
+      </thead>
+      <tbody>
+        <% detallesPrendaList.forEach(detalle => { %>
+          <tr>
+            <td style="padding: 8px;"><%= detalle.dataValues.clase_prenda.tipo %></td>
+            <td style="padding: 8px;"><%= detalle.ubicacion %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <p style="margin-bottom: 20px; font-size: 14px; color: #d24e4e;">
+      Te recordamos presentar el dni o constancia para retirar la prenda.
+    </p>
+    <% if (cliente.estado_clientes_id === 1) { %>
+      <p style="margin-bottom: 20px; font-size: 16px; color: #555; text-align: center;">
+        Agradecemos tu fidelidad como socio.
+      </p>
+    <% } else if (cliente.estado_clientes_id === 2){ %>
+      <p style="margin-bottom: 20px; font-size: 16px; color: #555; text-align: center;">
+        ¡Gracias por visitarnos!
+      </p>
+    <% } %>
+    <!-- <p style="margin-bottom: 20px; font-size: 16px; color: #555;">¡Atte. Casino Trilenium!</p> -->
+  </div>
+  <%- include('../../views/footer_email') %>

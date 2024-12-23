@@ -1,0 +1,63 @@
+<%- include('../../views/header_email.ejs') %>
+
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+
+    <p style="margin-bottom: 12px; font-size: 18px; color: #333;">
+      <strong>
+        El usuario <%= usuario.nombre %>
+          <%= usuario.apellido %> ha eliminado la prenda <%= prenda.id %> del sistema que estaba entregada.
+      </strong>
+    </p>
+    <p style="margin-bottom: 12px; font-size: 16px; color: #555; text-align: center;">
+      Fecha y hora del borrado: <%= fechaYHoraFormateada %>
+    </p>
+    <p style="margin-bottom: 10px; font-size: 16px; color: #555; text-align: center;">
+      Cliente: <%= cliente.nombre ? `${cliente.nombre} ${cliente.apellido}` : 'No disponible' %> - DNI: <%=
+      cliente ? cliente.dni : 'No disponible' %>
+    </p>
+    <p style="margin-bottom: 12px; font-size: 16px; color: #555; text-align: center;">
+      Prendas eliminadas:
+    </p>
+    <table style="width:100%; border-collapse: collapse;" border="1">
+    <thead>
+      <tr>
+        <th style="padding: 8px; text-align: left;">Prenda</th>
+        <th style="padding: 8px; text-align: left;">Ubicación</th>
+        <th style="padding: 8px; text-align: left;">Fecha Ingreso</th>
+        <th style="padding: 8px; text-align: left;">Recibe</th>
+        <th style="padding: 8px; text-align: left;">Fecha Entrega</th>
+        <th style="padding: 8px; text-align: left;">Entrega</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% detalles.forEach(function(detalle) { %>
+        <tr>
+          <tr>
+            <td style="padding: 8px;">
+              <%= detalle.clase_prenda.tipo %>
+            </td>
+            <td style="padding: 8px;">
+              <%= detalle.ubicacion %>
+            </td>
+            <td style="padding: 8px;">
+              <%= formatearFecha(prenda.fecha_de_ingreso) %>
+            </td>
+            <td style="padding: 8px;">
+              <%= usuario.nombre %>
+                <%= usuario.apellido %>
+            </td>
+            <td style="padding: 8px;">
+              <%= formatearFecha(prenda.fecha_de_egreso) %>
+            </td>
+          <td style="padding: 8px;">
+            <%= usuario.nombre %> <%= usuario.apellido %>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555; text-align: center;">
+      ¡Atte. Área de Juegos!
+    </p>
+  </div>
+  <%- include('../../views/footer_email') %>

@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: S.I.G - Sistema integral de gestión
+  version: 1.0.0
+  description: Documentación de SIG API, endpoints consumibles para sistemas de gestión de Guardarropa y clientes VIP.
+tags:
+  - name: Autentificación
+    description: Endpoints relacionados con la autenticación
+paths:
+  /ingreso:
+    post:
+      summary: Iniciar sesión
+      tags:
+        - Autentificación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                legajo:
+                  type: string
+                  description: Legajo del usuario
+                  example: "12345"
+                clave:
+                  type: string
+                  description: Clave del usuario
+                  example: "password123"
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    description: Token de acceso JWT
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '400':
+          description: Faltan datos o credenciales inválidas
+  /egreso:
+    get:
+      summary: Cerrar sesión
+      tags:
+        - Autentificación
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Egreso exitoso
+        '400':
+          description: No se encuentra una sesión abierta
+  /egresoOtroUsuario:
+    post:
+      summary: Cerrar sesión de otro usuario
+      tags:
+        - Autentificación
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuarioId:
+                  type: integer
+                  description: ID del usuario cuya sesión se va a cerrar
+                  example: 1
+      responses:
+        '200':
+          description: Egreso exitoso
+        '400':
+          description: No se encuentra una sesión abierta o falta el usuarioId
+  /verificarToken:
+    get:
+      summary: Verificar la validez del token
+      tags:
+        - Autentificación
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    description: Mensaje de validez del token
+                    example: "Token válido"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Juan"
+        apellido:
+          type: string
+          example: "Pérez"
+        legajo:
+          type: string
+          example: "12345"
+        rol_id:
+          type: integer
+          example: 1
+        sub_rol_id:
+          type: integer
+          example: 2
+        estado_clave:
+          type: integer
+          example: 1

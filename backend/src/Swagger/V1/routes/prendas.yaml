@@ -1,0 +1,1990 @@
+openapi: 3.0.0
+info:
+  title: S.I.G - Sistema integral de gestión
+  version: 1.0.0
+  description: Documentación de SIG API, endpoints consumibles para sistemas de gestión de Guardarropa y clientes VIP.
+tags:
+  - name: Gestión de Prendas - Gestión de prendas
+    description: Endpoints relacionados con la gestión de prendas
+  - name: Gestión de Prendas - Gestión de turnos
+    description: Endpoints relacionados con la gestión de turnos
+  - name: Gestión de Prendas - Gestión de tipos de prenda
+    description: Endpoints relacionados con la gestión de tipos de prenda
+  - name: Gestión de Prendas - Gestión de estadísticas y datos
+    description: Endpoints relacionados con la gestión de estadísticas y datos
+  - name: Gestión de Prendas - Gestión de ubicación
+    description: Endpoints relacionados con la gestión de ubicación        
+paths:
+  # -------------------------------
+  # Sección: Gestión de Prendas
+  # -------------------------------
+  /registrarPrenda:
+    post:
+      summary: Registrar una nueva prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  cliente:
+                    type: object
+                    properties:
+                      dni:
+                        type: string
+                        example: "12345678"
+                      nombre:
+                        type: string
+                        example: "Juan"
+                      apellido:
+                        type: string
+                        example: "Pérez"
+                      email:
+                        type: string
+                        example: "juan.perez@example.com"
+                      telefono:
+                        type: string
+                        example: "123456789"
+                      estado_clientes_id:
+                        type: integer
+                        example: 1
+                  estado_prendas_id:
+                    type: integer
+                    example: 1
+                  fecha_ingreso:
+                    type: string
+                    format: date-time
+                    example: "2023-01-01T00:00:00Z"
+                  detalles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        clase_prenda_id:
+                          type: integer
+                          example: 1
+                        ubicacion:
+                          type: string
+                          example: "Estante 3"
+                        detalle:
+                          type: string
+                          example: "Camisa blanca"
+      responses:
+        '200':
+          description: Prendas registradas con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prendas registradas con éxito"
+        '400':
+          description: Error en los datos de entrada
+        '500':
+          description: Error al registrar las prendas
+  /retirarPrenda:
+    post:
+      summary: Retirar una prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dni:
+                  type: string
+                  example: "12345678"
+                id_prenda:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: Prenda retirada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prenda retirada con éxito"
+        '404':
+          description: Cliente o prenda no encontrada
+        '500':
+          description: Error al retirar la prenda
+  /agregarMasPrendas:
+    post:
+      summary: Agregar más prendas a un registro existente
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id_prenda:
+                    type: integer
+                    example: 1
+                  prendas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        clase_prenda_id:
+                          type: integer
+                          example: 1
+                        ubicacion:
+                          type: string
+                          example: "Estante 3"
+                        detalle:
+                          type: string
+                          example: "Camisa blanca"
+      responses:
+        '200':
+          description: Prendas registradas con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prendas registradas con éxito"
+        '404':
+          description: Cliente o prenda no encontrada
+        '500':
+          description: Error al registrar las prendas
+  /entregaParcialPrenda:
+    post:
+      summary: Entrega parcial de una prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dni:
+                  type: string
+                  example: "12345678"
+                id_prenda:
+                  type: integer
+                  example: 1
+                ubicacion:
+                  type: string
+                  example: "Estante 3"
+      responses:
+        '200':
+          description: Prenda entregada parcialmente con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prenda entregada parcialmente con éxito"
+        '404':
+          description: Cliente o prenda no encontrada
+        '500':
+          description: Error al entregar parcialmente la prenda
+  /obtenerPrenda:
+    get:
+      summary: Obtener detalles de una prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id_prenda
+          schema:
+            type: integer
+          required: true
+          description: ID de la prenda
+          example: 1
+      responses:
+        '200':
+          description: Detalles de la prenda
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prenda:
+                    $ref: '#/components/schemas/Prenda'
+        '404':
+          description: Prenda no encontrada
+        '500':
+          description: Error al obtener los detalles de la prenda
+  /detalleRetirarPrenda:
+    get:
+      summary: Obtener detalles para retirar una prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dni:
+                  type: string
+                  example: "12345678"
+      responses:
+        '200':
+          description: Detalles de la prenda y cliente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prenda:
+                    $ref: '#/components/schemas/Prenda'
+                  cliente:
+                    $ref: '#/components/schemas/Cliente'
+        '404':
+          description: Cliente o prenda no encontrada
+        '500':
+          description: Error al obtener los detalles de la prenda
+  /obtenerPrendasResguardo:
+    get:
+      summary: Obtener prendas en resguardo
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de prendas en resguardo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prenda'
+        '500':
+          description: Error al obtener las prendas en resguardo
+  /obtenerPrendasEntregadas:
+    get:
+      summary: Obtener prendas entregadas
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de prendas entregadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prenda'
+        '500':
+          description: Error al obtener las prendas entregadas
+  /obtenerPrendasOlvidadas:
+    get:
+      summary: Obtener prendas olvidadas
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de prendas olvidadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prenda'
+        '500':
+          description: Error al obtener las prendas olvidadas
+  /obtenerPrendasPorFechasYTipo:
+    get:
+      summary: Obtener prendas por fechas y tipo
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: tipoPrendaId
+          schema:
+            type: integer
+          description: ID del tipo de prenda
+          example: 1
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar prendas
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar prendas
+          example: "2023-01-31"
+        - in: query
+          name: tipoFecha
+          schema:
+            type: string
+          description: Tipo de fecha para filtrar (ingreso, egreso, ambas)
+          example: "ingreso"
+        - in: query
+          name: estadoPrenda
+          schema:
+            type: string
+          description: Estado de la prenda
+          example: "1"
+        - in: query
+          name: dni
+          schema:
+            type: string
+          description: DNI del cliente
+          example: "12345678"
+      responses:
+        '200':
+          description: Lista de prendas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prendas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Prenda'
+                  cantidad:
+                    type: integer
+                    example: 10
+        '204':
+          description: No se encontraron prendas para los criterios especificados
+        '500':
+          description: Error al obtener las prendas
+  /obtenerClientesFrecuentes:
+    get:
+      summary: Obtener clientes frecuentes
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: dateFrom
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar clientes
+          example: "2023-01-01"
+        - in: query
+          name: dateTo
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar clientes
+          example: "2023-01-31"
+        - in: query
+          name: cantidadClientes
+          schema:
+            type: integer
+          description: Cantidad de clientes a obtener
+          example: 10
+      responses:
+        '200':
+          description: Lista de clientes frecuentes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClienteFrecuente'
+        '500':
+          description: Error al obtener los clientes frecuentes
+  /borrarPrenda:
+    put:
+      summary: Borrar una prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID de la prenda a borrar
+                  example: 1
+      responses:
+        '200':
+          description: Prenda marcada como borrada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prenda marcada como borrada con éxito"
+        '404':
+          description: Prenda no encontrada
+        '500':
+          description: Error al marcar la prenda como borrada
+  /borrarPrendaEntregada:
+    put:
+      summary: Borrar una prenda entregada
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID de la prenda a borrar
+                  example: 1
+      responses:
+        '200':
+          description: Prenda marcada como borrada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prenda marcada como borrada con éxito"
+        '404':
+          description: Prenda no encontrada
+        '500':
+          description: Error al marcar la prenda como borrada
+  /reenviarAlertaDeOlvido:
+    put:
+      summary: Reenviar alerta de olvido de prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID de la prenda
+                  example: 1
+      responses:
+        '200':
+          description: Alerta de olvido reenviada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Alerta de olvido reenviada con éxito"
+        '404':
+          description: Prenda no encontrada
+        '500':
+          description: Error al reenviar la alerta de olvido
+  /editarPrendaDetalle:
+    put:
+      summary: Editar detalles de una prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID de la prenda
+                  example: 1
+                dni:
+                  type: string
+                  description: DNI del cliente
+                  example: "12345678"
+                detalles:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID del detalle de la prenda
+                        example: 1
+                      ubicacion:
+                        type: string
+                        description: Ubicación de la prenda
+                        example: "Estante 3"
+                      detalle:
+                        type: string
+                        description: Descripción de la prenda
+                        example: "Camisa blanca"
+                      clase_prenda_id:
+                        type: integer
+                        description: ID de la clase de prenda
+                        example: 1
+      responses:
+        '200':
+          description: Detalles de prenda editados con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Detalles de prenda editados con éxito"
+        '404':
+          description: Prenda o detalle de prenda no encontrado
+        '500':
+          description: Error al editar los detalles de prenda
+  /borrarPrendaDetalle:
+    put:
+      summary: Borrar un detalle de prenda
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID del detalle de la prenda a borrar
+                  example: 1
+      responses:
+        '200':
+          description: Detalle de prenda eliminado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Detalle de prenda eliminado con éxito"
+        '404':
+          description: Detalle de prenda no encontrado
+        '500':
+          description: Error al eliminar el detalle de prenda
+  /pasarPrendaAOlvidada:
+    put:
+      summary: Pasar una prenda a estado olvidada
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID de la prenda
+                  example: 1
+      responses:
+        '200':
+          description: Prenda actualizada a olvidada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prenda actualizada a olvidada con éxito"
+        '404':
+          description: Prenda no encontrada
+        '500':
+          description: Error al actualizar la prenda
+  /pasarPrendaOlvidadaADonada:
+    post:
+      summary: Pasar una prenda olvidada a estado donada
+      tags:
+        - Gestión de Prendas - Gestión de prendas
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_prenda:
+                  type: integer
+                  description: ID de la prenda
+                  example: 1
+                detalle_guardado:
+                  type: string
+                  description: Detalle de la prenda
+                  example: "Prenda donada"
+      responses:
+        '200':
+          description: Prenda actualizada a donada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prenda actualizada a donada con éxito"
+        '404':
+          description: Prenda no encontrada
+        '500':
+          description: Error al actualizar la prenda
+  # -------------------------------
+  # Sección: Gestión de turnos
+  # ------------------------------- 
+  /aperturaTurno:
+    post:
+      summary: Apertura de turno
+      tags:
+        - Gestión de Prendas - Gestión de turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_apertura:
+                  type: integer
+                  description: Número de apertura del turno
+                  example: 1
+      responses:
+        '200':
+          description: Turno abierto con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Turno abierto con éxito"
+                  turno:
+                    $ref: '#/components/schemas/Turno'
+        '400':
+          description: El ID del usuario es requerido
+        '500':
+          description: Error al abrir el turno
+  /cierreTurnoParcial:
+    post:
+      summary: Cierre parcial de turno
+      tags:
+        - Gestión de Prendas - Gestión de turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_cierre:
+                  type: integer
+                  description: Número de cierre parcial del turno
+                  example: 1
+      responses:
+        '200':
+          description: Turno parcial cerrado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Turno parcial cerrado con éxito"
+                  turno:
+                    $ref: '#/components/schemas/Turno'
+        '500':
+          description: Error al cerrar el turno
+  /cierreTurno:
+    post:
+      summary: Cierre de turno
+      tags:
+        - Gestión de Prendas - Gestión de turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_cierre:
+                  type: integer
+                  description: Número de cierre del turno
+                  example: 1
+      responses:
+        '200':
+          description: Turno cerrado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Turno cerrado con éxito"
+                  turno:
+                    $ref: '#/components/schemas/Turno'
+        '404':
+          description: No se encontró un turno abierto para el usuario
+        '500':
+          description: Error al cerrar el turno
+  /obtenerTurnoAbierto:
+    get:
+      summary: Obtener turno abierto
+      tags:
+        - Gestión de Prendas - Gestión de turnos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalles del turno abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  numero_apertura:
+                    type: integer
+                    example: 1
+                  fecha_apertura:
+                    type: string
+                    format: date-time
+                    example: "2023-01-01T00:00:00Z"
+                  usuario_apertura:
+                    $ref: '#/components/schemas/Usuario'
+        '400':
+          description: No se encontró un turno abierto
+        '500':
+          description: Error al obtener el turno abierto
+  /obtenerTodosLosTurnos:
+    get:
+      summary: Obtener todos los turnos
+      tags:
+        - Gestión de Prendas - Gestión de turnos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de todos los turnos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Turno'
+        '500':
+          description: Error al obtener los turnos
+  /ultimoTurnoAbierto:
+    get:
+      summary: Obtener el último turno abierto
+      tags:
+        - Gestión de Prendas - Gestión de turnos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalles del último turno abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numero_apertura:
+                    type: integer
+                    example: 1
+        '500':
+          description: Error al obtener el último turno abierto
+  # -------------------------------
+  # Sección: Gestión de tipos de prenda
+  # -------------------------------
+  /tipoDePrenda:
+    get:
+      summary: Obtener tipos de prenda
+      tags:
+        - Gestión de Prendas - Gestión de tipos de prenda
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de tipos de prenda
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClasePrenda'
+        '500':
+          description: Error al obtener los tipos de prenda
+  /eliminarTipoDePrenda:
+    put:
+      summary: Eliminar un tipo de prenda
+      tags:
+        - Gestión de Prendas - Gestión de tipos de prenda
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID del tipo de prenda a eliminar
+                  example: 1
+      responses:
+        '200':
+          description: Tipo de prenda eliminado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de prenda eliminado con éxito"
+        '404':
+          description: No se encontró la clase de prenda
+        '500':
+          description: Error al eliminar el tipo de prenda
+  /editarTipoDePrenda:
+    put:
+      summary: Editar un tipo de prenda
+      tags:
+        - Gestión de Prendas - Gestión de tipos de prenda
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID del tipo de prenda a editar
+                  example: 1
+                tipo:
+                  type: string
+                  description: Nombre del tipo de prenda
+                  example: "Camisa"
+                capacidad_maxima:
+                  type: integer
+                  description: Capacidad máxima del tipo de prenda
+                  example: 100
+                capacidad_actual:
+                  type: integer
+                  description: Capacidad actual del tipo de prenda
+                  example: 50
+      responses:
+        '200':
+          description: Tipo de prenda editado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de prenda editado con éxito"
+        '404':
+          description: No se encontró la clase de prenda
+        '500':
+          description: Error al editar el tipo de prenda
+  /crearTipoDePrenda:
+    post:
+      summary: Crear un nuevo tipo de prenda
+      tags:
+        - Gestión de Prendas - Gestión de tipos de prenda
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                  description: Nombre del tipo de prenda
+                  example: "Camisa"
+                capacidad_maxima:
+                  type: integer
+                  description: Capacidad máxima del tipo de prenda
+                  example: 100
+      responses:
+        '200':
+          description: Tipo de prenda creado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de prenda creado con éxito"
+                  tipo:
+                    type: string
+                    example: "Camisa"
+        '500':
+          description: Error al crear el tipo de prenda
+  /obtenerPrendasOlvidadasYDonadas:
+    get:
+      summary: Obtener estadísticas de prendas olvidadas y donadas
+      tags:
+        - Gestión de Prendas - Gestión de tipos de prenda
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Estadísticas de prendas olvidadas y donadas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: object
+                    properties:
+                      cantidad_olvidadas:
+                        type: integer
+                        example: 10
+                      cantidad_donadas:
+                        type: integer
+                        example: 5
+        '500':
+          description: Error al obtener las prendas olvidadas y donadas
+  /obtenerPrendasPorTipoYEstado:
+    get:
+      summary: Obtener estadísticas de prendas por tipo y estado
+      tags:
+        - Gestión de Prendas - Gestión de tipos de prenda
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Estadísticas de prendas por tipo y estado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        estado_prendas_id:
+                          type: integer
+                          example: 1
+                        clase_prenda_id:
+                          type: integer
+                          example: 1
+                        cantidad:
+                          type: integer
+                          example: 10
+        '500':
+          description: Error al obtener las prendas por tipo y estado
+  # -------------------------------
+  # Sección: Gestión de estadísticas y datos
+  # -------------------------------
+  /promedioOcupacionGuardarropa:
+    get:
+      summary: Obtener promedio de ocupación del guardarropa
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Promedio de ocupación del guardarropa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  promedioOcupacion:
+                    type: number
+                    example: 75.50
+                  promedioOcupacionInvertido:
+                    type: number
+                    example: 24.50
+                  estadoCapacidad:
+                    type: string
+                    example: "Entre el 70% y el 80% ocupado"
+        '500':
+          description: Error al calcular el promedio de ocupación del guardarropa
+  /tiempoDeCargaPrenda:
+    post:
+      summary: Registrar tiempo de carga de prenda
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fecha_inicio:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de inicio de la carga
+                  example: "2023-01-01T00:00:00Z"
+                fecha_fin:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de fin de la carga
+                  example: "2023-01-01T00:10:00Z"
+                promedio_tiempo:
+                  type: number
+                  description: Promedio de tiempo de carga en segundos
+                  example: 600
+      responses:
+        '200':
+          description: Tiempo de carga de prenda registrado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tiempo de carga de prenda registrado con éxito"
+        '500':
+          description: Error al registrar el tiempo de carga de prenda
+  /obtenerTiempoDeCargaPrenda:
+    get:
+      summary: Obtener tiempo de carga de prenda
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: dateFrom
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar tiempos de carga
+          example: "2023-01-01"
+        - in: query
+          name: dateTo
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar tiempos de carga
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Lista de tiempos de carga de prenda
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tiempo:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LogCargaPrenda'
+                  promedioTiempoGeneral:
+                    type: string
+                    example: "10 minutos"
+                  promedioTiempoPorUsuario:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        usuario:
+                          $ref: '#/components/schemas/Usuario'
+                        promedio_tiempo:
+                          type: string
+                          example: "10 minutos"
+                        cantidadRegistros:
+                          type: integer
+                          example: 5
+                        cantidadPrendas:
+                          type: integer
+                          example: 50
+                  totalPrendasRegistradas:
+                    type: integer
+                    example: 100
+        '500':
+          description: Error al obtener el tiempo de carga de prenda
+  /obtenerTiempoDeCargaAnual:
+    get:
+      summary: Obtener tiempo de carga anual
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+          description: Año para filtrar tiempos de carga
+          example: 2023
+        - in: query
+          name: topN
+          schema:
+            type: integer
+          description: Número de mejores promedios a obtener
+          example: 10
+      responses:
+        '200':
+          description: Lista de tiempos de carga anual
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mejoresPromediosPorMes:
+                    type: object
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          usuario_id:
+                            type: integer
+                            example: 1
+                          nombre:
+                            type: string
+                            example: "Juan"
+                          apellido:
+                            type: string
+                            example: "Pérez"
+                          legajo:
+                            type: string
+                            example: "12345"
+                          promedio:
+                            type: string
+                            example: "10 minutos"
+                          mes:
+                            type: integer
+                            example: 1
+                          registros:
+                            type: integer
+                            example: 5
+                  promediosGenerales:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mes:
+                          type: integer
+                          example: 1
+                        promedio:
+                          type: string
+                          example: "10 minutos"
+                        nombre:
+                          type: string
+                          example: "Enero"
+        '500':
+          description: Error al obtener el tiempo de carga anual
+  /obtenerDatosParaGraficos:
+    get:
+      summary: Obtener datos para gráficos
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: dateFrom
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar datos
+          example: "2023-01-01"
+        - in: query
+          name: dateTo
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar datos
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Datos para gráficos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  datosPorHora:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        hora:
+                          type: string
+                          example: "2023-01-01T00:00:00Z"
+                        promedio_tiempo:
+                          type: string
+                          example: "10 minutos"
+                  promedioDiario:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        dia:
+                          type: string
+                          example: "2023-01-01"
+                        promedio_tiempo:
+                          type: string
+                          example: "10 minutos"
+                  promedioMensual:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mes:
+                          type: string
+                          example: "2023-01"
+                        promedio_tiempo:
+                          type: string
+                          example: "10 minutos"
+        '500':
+          description: Error al obtener los datos para gráficos
+  /obtenerEstadisticasPrendasPorDiaDeLaSemana:
+    get:
+      summary: Obtener estadísticas de prendas por día de la semana
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar estadísticas
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar estadísticas
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Estadísticas de prendas por día de la semana
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        dia_semana:
+                          type: string
+                          example: "Lunes"
+                        cantidad_ingresos:
+                          type: integer
+                          example: 10
+                        cantidad_egresos:
+                          type: integer
+                          example: 5
+                        tipo_prenda_mas_frecuente:
+                          type: string
+                          example: "Camisa"
+                  maxIngresos:
+                    type: integer
+                    example: 20
+                  minIngresos:
+                    type: integer
+                    example: 5
+                  maxEgresos:
+                    type: integer
+                    example: 15
+                  minEgresos:
+                    type: integer
+                    example: 2
+        '500':
+          description: Error al obtener las estadísticas de prendas por día de la semana
+  /obtenerEstadisticasPrendasPorAno:
+    get:
+      summary: Obtener estadísticas de prendas por año
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: ano
+          schema:
+            type: integer
+          description: Año para filtrar estadísticas
+          example: 2023
+      responses:
+        '200':
+          description: Estadísticas de prendas por año
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mes:
+                          type: string
+                          example: "2023-01"
+                        cantidad_ingresos:
+                          type: integer
+                          example: 100
+                        cantidad_egresos:
+                          type: integer
+                          example: 50
+                        tipo_prenda_mas_frecuente:
+                          type: string
+                          example: "Camisa"
+                  maxIngresos:
+                    type: integer
+                    example: 200
+                  minIngresos:
+                    type: integer
+                    example: 50
+                  maxEgresos:
+                    type: integer
+                    example: 150
+                  minEgresos:
+                    type: integer
+                    example: 20
+                  totalIngresosAnuales:
+                    type: integer
+                    example: 1200
+                  totalEgresosAnuales:
+                    type: integer
+                    example: 600
+                  mesMaxIngresos:
+                    type: string
+                    example: "2023-01"
+                  mesMaxEgresos:
+                    type: string
+                    example: "2023-02"
+        '500':
+          description: Error al obtener las estadísticas de prendas por año
+  /obtenerEstadisticasPrendasPorHoraMensual:
+    get:
+      summary: Obtener estadísticas de prendas por hora mensual
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar estadísticas
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar estadísticas
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Estadísticas de prendas por hora mensual
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        hora:
+                          type: string
+                          example: "2023-01-01T00:00:00Z"
+                        cantidad_ingresos:
+                          type: integer
+                          example: 10
+                        cantidad_egresos:
+                          type: integer
+                          example: 5
+                  totalCantidadIngresos:
+                    type: integer
+                    example: 100
+                  totalCantidadEgresos:
+                    type: integer
+                    example: 50
+        '500':
+          description: Error al obtener las estadísticas de prendas por hora mensual
+  /obtenerDNIMasUtilizadosPorHora:
+    get:
+      summary: Obtener DNI más utilizados por hora
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de DNI más utilizados por hora
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dniSugeridos:
+                    type: array
+                    items:
+                      type: string
+                      example: "12345678"
+        '500':
+          description: Error al obtener los DNI más utilizados por hora
+  /obtenerPromedioTiempoPermanencia:
+    get:
+      summary: Obtener promedio de tiempo de permanencia de prendas
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Promedio de tiempo de permanencia de prendas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        promedio_tiempo_permanencia:
+                          type: number
+                          example: 120
+        '500':
+          description: Error al obtener el promedio de tiempo de permanencia de prendas
+  /obtenerEstadisticasPrendasPorMes:
+    get:
+      summary: Obtener estadísticas de prendas por mes
+      tags:
+        - Gestión de Prendas - Gestión de estadísticas y datos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: ano
+          schema:
+            type: integer
+          description: Año para filtrar estadísticas
+          example: 2023
+      responses:
+        '200':
+          description: Estadísticas de prendas por mes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadisticas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mes:
+                          type: string
+                          example: "2023-01"
+                        cantidad_ingresos:
+                          type: integer
+                          example: 100
+                        cantidad_egresos:
+                          type: integer
+                          example: 50
+        '500':
+          description: Error al obtener las estadísticas de prendas por mes
+  # -------------------------------
+  # Sección: Gestión de ubicación
+  # -------------------------------
+  /modificarUltimaUbicacion:
+    put:
+      summary: Modificar la última ubicación
+      tags:
+        - Gestión de Prendas - Gestión de ubicación
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ubicacion:
+                  type: integer
+                  description: Nueva ubicación
+                  example: 2
+                motivo:
+                  type: string
+                  description: Motivo del cambio de ubicación
+                  example: "Cambio de ubicación por reorganización"
+      responses:
+        '200':
+          description: Ubicación modificada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Ubicación modificada con éxito"
+        '400':
+          description: La ubicación no fue modificada
+        '500':
+          description: Error al modificar la última ubicación
+  /ultimaUbicacion:
+    get:
+      summary: Obtener la última ubicación
+      tags:
+        - Gestión de Prendas - Gestión de ubicación
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalles de la última ubicación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ubicacion:
+                    type: integer
+                    example: 1
+                  mensaje:
+                    type: string
+                    example: "true"
+        '500':
+          description: Error al obtener la última ubicación
+  # -------------------------------
+components:
+  schemas:
+    UltimaUbicacion:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        ubicacion:
+          type: integer
+          example: 1
+        estado:
+          type: integer
+          example: 1
+        motivo:
+          type: string
+          example: "Cambio de ubicación por reorganización"
+    LogCargaPrenda:
+      type: object
+      properties:
+        fecha_inicio:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        fecha_fin:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:10:00Z"
+        promedio_tiempo:
+          type: number
+          example: 600
+        usuario:
+          $ref: '#/components/schemas/Usuario'
+    ClasePrenda:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tipo:
+          type: string
+          example: "Camisa"
+        capacidad_maxima:
+          type: integer
+          example: 100
+        capacidad_actual:
+          type: integer
+          example: 50
+    Turno:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        numero_apertura:
+          type: integer
+          example: 1
+        numero_cierre:
+          type: integer
+          example: 1
+        fecha_apertura:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        fecha_cierre:
+          type: string
+          format: date-time
+          example: "2023-01-01T02:00:00Z"
+        usuario_id_apertura:
+          type: integer
+          example: 1
+        usuario_id_cierre:
+          type: integer
+          example: 1
+        usuario_apertura:
+          $ref: '#/components/schemas/Usuario'
+        usuario_cierre:
+          $ref: '#/components/schemas/Usuario'
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Juan"
+        apellido:
+          type: string
+          example: "Pérez"
+        legajo:
+          type: string
+          example: "12345"
+    ClienteFrecuente:
+      type: object
+      properties:
+        top:
+          type: integer
+          example: 1
+        clientes_id:
+          type: integer
+          example: 1
+        cantidad:
+          type: integer
+          example: 10
+        hora_promedio_ingreso:
+          type: string
+          example: "10:00"
+        hora_promedio_egreso:
+          type: string
+          example: "18:00"
+        promedio_tiempo_permanencia:
+          type: string
+          example: "08:00"
+        total_tiempo_permanencia:
+          type: string
+          example: "80:00"
+        rango_horario:
+          type: string
+          example: "10:00 - 18:00"
+        dias_frecuentes:
+          type: string
+          example: "LU,MA,MI,JU,VI"
+        cliente:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nombre:
+              type: string
+              example: "Juan"
+            apellido:
+              type: string
+              example: "Pérez"
+            dni:
+              type: string
+              example: "12345678"
+            email:
+              type: string
+              example: "juan.perez@example.com"
+            telefono:
+              type: string
+              example: "123456789"
+            estado_clientes_id:
+              type: integer
+              example: 1
+            estadoCliente:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                tipo:
+                  type: string
+                  example: "Activo"
+    Prenda:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        estado_prendas_id:
+          type: integer
+          example: 1
+        fecha_de_ingreso:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        fecha_de_egreso:
+          type: string
+          format: date-time
+          example: "2023-01-01T02:00:00Z"
+        usuario_ingreso_id:
+          type: integer
+          example: 1
+        usuario_egreso_id:
+          type: integer
+          example: 1
+        clientes_id:
+          type: integer
+          example: 1
+        estadoPrenda:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            tipo:
+              type: string
+              example: "En resguardo"
+        cliente:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nombre:
+              type: string
+              example: "Juan"
+            apellido:
+              type: string
+              example: "Pérez"
+            dni:
+              type: string
+              example: "12345678"
+            email:
+              type: string
+              example: "juan.perez@example.com"
+            telefono:
+              type: string
+              example: "123456789"
+            estado_clientes_id:
+              type: integer
+              example: 1
+            estadoCliente:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                tipo:
+                  type: string
+                  example: "Activo"
+        usuario_ingreso:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nombre:
+              type: string
+              example: "Admin"
+            apellido:
+              type: string
+              example: "User"
+            legajo:
+              type: string
+              example: "12345"
+            roles_id:
+              type: integer
+              example: 1
+            sub_rol_id:
+              type: integer
+              example: 1
+        usuario_egreso:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nombre:
+              type: string
+              example: "Admin"
+            apellido:
+              type: string
+              example: "User"
+            legajo:
+              type: string
+              example: "12345"
+            roles_id:
+              type: integer
+              example: 1
+            sub_rol_id:
+              type: integer
+              example: 1
+        detalles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              clase_prenda_id:
+                type: integer
+                example: 1
+              ubicacion:
+                type: string
+                example: "Estante 3"
+              detalle:
+                type: string
+                example: "Camisa blanca"
+              prenda_id:
+                type: integer
+                example: 1
+              fecha_egreso_parcial:
+                type: string
+                format: date-time
+                example: "2023-01-01T02:00:00Z"
+              entrega_parcial:
+                type: integer
+                example: 1
+              clase_prenda:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  tipo:
+                    type: string
+                    example: "Camisa"
+    Cliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Juan"
+        apellido:
+          type: string
+          example: "Pérez"
+        dni:
+          type: string
+          example: "12345678"
+        email:
+          type: string
+          example: "juan.perez@example.com"
+        telefono:
+          type: string
+          example: "123456789"
+        estado_clientes_id:
+          type: integer
+          example: 1
+        estadoCliente:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            tipo:
+              type: string
+              example: "Activo"

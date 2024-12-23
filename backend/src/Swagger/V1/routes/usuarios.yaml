@@ -1,0 +1,610 @@
+openapi: 3.0.0
+info:
+  title: S.I.G - Sistema integral de gestión
+  version: 1.0.0
+  description: Documentación de SIG API, endpoints consumibles para sistemas de gestión de Guardarropa y clientes VIP.
+tags:
+  - name: Usuarios
+    description: Endpoints relacionados con la gestión de usuarios
+paths:
+  /registrarUsuario:
+    post:
+      summary: Registrar un nuevo usuario
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: Nombre del usuario
+                  example: "Juan"
+                apellido:
+                  type: string
+                  description: Apellido del usuario
+                  example: "Pérez"
+                legajo:
+                  type: string
+                  description: Legajo del usuario
+                  example: "12345"
+                roles_id:
+                  type: integer
+                  description: ID del rol del usuario
+                  example: 1
+                email:
+                  type: string
+                  description: Email del usuario
+                  example: "juan.perez@example.com"
+                sub_rol_id:
+                  type: integer
+                  description: ID del sub rol del usuario
+                  example: 2
+      responses:
+        '200':
+          description: Usuario registrado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario registrado con éxito"
+        '400':
+          description: El usuario ya existe o faltan datos
+        '500':
+          description: Error al registrar usuario
+  /reenviarPassword:
+    put:
+      summary: Reenviar contraseña
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                legajo:
+                  type: string
+                  description: Legajo del usuario
+                  example: "12345"
+      responses:
+        '200':
+          description: Contraseña reenviada con éxito
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al reenviar contraseña
+  /roles:
+    get:
+      summary: Obtener roles
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rol'
+        '500':
+          description: Error al obtener roles
+  /subRoles:
+    get:
+      summary: Obtener sub roles
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de sub roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubRol'
+        '500':
+          description: Error al obtener sub roles
+  /changeFirstPassword:
+    post:
+      summary: Cambiar primera contraseña
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                passwordOne:
+                  type: string
+                  description: Nueva contraseña
+                  example: "newpassword123"
+                passwordTwo:
+                  type: string
+                  description: Confirmar nueva contraseña
+                  example: "newpassword123"
+      responses:
+        '200':
+          description: Contraseña actualizada
+        '400':
+          description: Las contraseñas no coinciden o usuario no encontrado
+  /changePassword:
+    post:
+      summary: Cambiar contraseña
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                passwordOne:
+                  type: string
+                  description: Nueva contraseña
+                  example: "newpassword123"
+                passwordTwo:
+                  type: string
+                  description: Confirmar nueva contraseña
+                  example: "newpassword123"
+                verificationCode:
+                  type: string
+                  description: Código de verificación
+                  example: "ABC123"
+      responses:
+        '200':
+          description: Contraseña actualizada
+        '400':
+          description: Las contraseñas no coinciden o usuario no encontrado
+  /editarUsuario:
+    put:
+      summary: Editar usuario
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID del usuario
+                  example: 1
+                nombre:
+                  type: string
+                  description: Nombre del usuario
+                  example: "Juan"
+                apellido:
+                  type: string
+                  description: Apellido del usuario
+                  example: "Pérez"
+                legajo:
+                  type: string
+                  description: Legajo del usuario
+                  example: "12345"
+                roles_id:
+                  type: integer
+                  description: ID del rol del usuario
+                  example: 1
+                email:
+                  type: string
+                  description: Email del usuario
+                  example: "juan.perez@example.com"
+                sub_rol_id:
+                  type: integer
+                  description: ID del sub rol del usuario
+                  example: 2
+      responses:
+        '200':
+          description: Usuario editado con éxito
+        '400':
+          description: Faltan datos o el usuario ya existe con ese legajo
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al editar usuario
+  /obtenerUsuarios:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '500':
+          description: Error al obtener usuarios
+  /eliminarUsuario:
+    put:
+      summary: Eliminar usuario
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID del usuario
+                  example: 1
+      responses:
+        '200':
+          description: Usuario eliminado con éxito
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al eliminar usuario
+  /obtenerUsuarioPorId/{id}:
+    get:
+      summary: Obtener usuario por ID
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del usuario
+          example: 1
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al obtener usuario
+  /generarCodigoCambioClave:
+    post:
+      summary: Generar código de cambio de clave
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Código de cambio de clave generado y enviado por email
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al generar código de cambio de clave
+  /obtenerUsuariosEnLinea:
+    get:
+      summary: Obtener usuarios en línea
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios en línea
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsuarioLog'
+        '500':
+          description: Error al obtener usuarios en línea
+  /obtenerUsuariosLogs:
+    get:
+      summary: Obtener logs de usuarios
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar logs
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar logs
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Lista de logs de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsuarioLog'
+        '500':
+          description: Error al obtener logs de usuarios
+  /solicitarAyuda:
+    post:
+      summary: Solicitar ayuda
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                problema:
+                  type: string
+                  description: Descripción del problema
+                  example: "No puedo acceder al sistema"
+      responses:
+        '200':
+          description: Solicitud de asistencia enviada
+        '500':
+          description: Error al solicitar ayuda
+  /egresoOtroUsuario:
+    post:
+      summary: Cerrar sesión de otro usuario
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuarioId:
+                  type: integer
+                  description: ID del usuario cuya sesión se va a cerrar
+                  example: 1
+      responses:
+        '200':
+          description: Egreso exitoso
+        '400':
+          description: No se encuentra una sesión abierta o falta el usuarioId
+  /procedimiento/guardarropas:
+    get:
+      summary: Obtener procedimiento de guardarropas
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Procedimiento obtenido con éxito
+        '500':
+          description: Error al obtener procedimiento
+  /obtenerUsuariosLaboratorio:
+    get:
+      summary: Obtener usuarios de laboratorio
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios de laboratorio
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '500':
+          description: Error al obtener usuarios de laboratorio
+  /asignarUsuarioLaboratorioASala:
+    post:
+      summary: Asignar usuario de laboratorio a sala
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario_id:
+                  type: integer
+                  description: ID del usuario
+                  example: 1
+                sala_id:
+                  type: integer
+                  description: ID de la sala
+                  example: 2
+      responses:
+        '200':
+          description: Usuario asignado a sala
+        '500':
+          description: Error al asignar usuario a sala
+  /obtenerUsuariosLaboratorioPorSala/{id}:
+    get:
+      summary: Obtener usuarios de laboratorio por sala
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la sala
+          example: 1
+      responses:
+        '200':
+          description: Lista de usuarios de laboratorio por sala
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsuarioLaboratorioSala'
+        '500':
+          description: Error al obtener usuarios por sala
+  /obtenerTiposDeSalas:
+    get:
+      summary: Obtener tipos de salas
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de tipos de salas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TipoSala'
+        '500':
+          description: Error al obtener tipos de salas
+  /subirArchivoProcedimiento:
+    post:
+      summary: Subir archivo de procedimiento
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Archivo subido exitosamente
+        '500':
+          description: Error al subir el archivo
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        apellido:
+          type: string
+        legajo:
+          type: string
+        email:
+          type: string
+        estado:
+          type: integer
+        roles_id:
+          type: integer
+        sub_rol_id:
+          type: integer
+        estado_clave:
+          type: integer
+        codigo_verificacion:
+          type: string
+    Rol:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+    SubRol:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+    UsuarioLog:
+      type: object
+      properties:
+        id:
+          type: integer
+        estado:
+          type: integer
+        fecha_ingreso:
+          type: string
+          format: date-time
+        fecha_egreso:
+          type: string
+          format: date-time
+        usuario:
+          $ref: '#/components/schemas/Usuario'
+    UsuarioLaboratorioSala:
+      type: object
+      properties:
+        usuario_id:
+          type: integer
+        sala_id:
+          type: integer
+        usuario:
+          $ref: '#/components/schemas/Usuario'
+    TipoSala:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

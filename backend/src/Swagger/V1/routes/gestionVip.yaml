@@ -1,0 +1,2364 @@
+openapi: 3.0.0
+info:
+  title: S.I.G - Sistema integral de gestión
+  version: 1.0.0
+  description: Documentación de SIG API, endpoints consumibles para sistemas de gestión de Guardarropa y clientes VIP.
+tags:
+  - name: Gestión VIP - Turnos
+    description: Endpoints relacionados con la gestión de turnos VIP
+  - name: Gestión VIP - Premios
+    description: Endpoints relacionados con la gestión de premios VIP
+  - name: Gestión VIP - Registro de Clientes
+    description: Endpoints relacionados con el registro de clientes VIP
+  - name: Gestión VIP - Canjes
+    description: Endpoints relacionados con los canjes de productos VIP  
+  - name: Gestión VIP - Canjes de productos
+    description: Endpoints relacionados con los canjes de productos VIP 
+  - name: Gestión VIP - Venta de tickets
+    description: Endpoints relacionados con la venta de tickets VIP
+  - name: Gestión VIP - Clientes
+    description: Endpoints relacionados con la gestión de clientes VIP
+  - name: Gestión VIP - Gastronomía
+    description: Endpoints relacionados con la gestión de gastronomía VIP       
+paths:
+  # ------------------------------
+  # Sección: Gestión de Turnos VIP
+  # ------------------------------
+  /aperturaTurno:
+    post:
+      summary: Apertura de turno
+      tags:
+        - Gestión VIP - Turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                novedad_apertura:
+                  type: string
+                  description: Novedad de apertura del turno
+                  example: "Sin novedad"
+      responses:
+        '200':
+          description: Turno abierto correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Turno abierto correctamente"
+        '400':
+          description: Ya hay un turno abierto sin cerrar
+        '500':
+          description: Error al abrir el turno
+  /agregarNovedadAlTurnoApertura:
+    post:
+      summary: Agregar novedad al turno de apertura
+      tags:
+        - Gestión VIP - Turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                novedad_apertura:
+                  type: string
+                  description: Novedad de apertura del turno
+                  example: "Novedad adicional"
+      responses:
+        '200':
+          description: Novedad agregada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Novedad agregada correctamente"
+        '400':
+          description: No hay un turno abierto para agregar novedad o falta la novedad
+        '403':
+          description: No tienes permiso para agregar novedades a este turno
+        '500':
+          description: Error al agregar la novedad
+  /actualizarAperturaTardeUno:
+    post:
+      summary: Actualizar apertura de turno tarde uno
+      tags:
+        - Gestión VIP - Turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                novedad_tarde_uno:
+                  type: string
+                  description: Novedad del turno tarde uno
+                  example: "Sin novedad"
+      responses:
+        '200':
+          description: Apertura tarde uno actualizada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Apertura tarde uno actualizada correctamente"
+        '400':
+          description: No hay un turno abierto para actualizar
+        '500':
+          description: Error al actualizar la apertura tarde uno
+  /agregarNovedadAlTurnoTardeUno:
+    post:
+      summary: Agregar novedad al turno tarde uno
+      tags:
+        - Gestión VIP - Turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                novedad_tarde_uno:
+                  type: string
+                  description: Novedad del turno tarde uno
+                  example: "Novedad adicional"
+      responses:
+        '200':
+          description: Novedad agregada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Novedad agregada correctamente"
+        '400':
+          description: No hay un turno abierto para agregar novedad o falta la novedad
+        '403':
+          description: No tienes permiso para agregar novedades a este turno
+        '500':
+          description: Error al agregar la novedad
+  /actualizarAperturaTardeDos:
+    post:
+      summary: Actualizar apertura de turno tarde dos
+      tags:
+        - Gestión VIP - Turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                novedad_tarde_dos:
+                  type: string
+                  description: Novedad del turno tarde dos
+                  example: "Sin novedad"
+      responses:
+        '200':
+          description: Turno tarde actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Turno tarde actualizado correctamente"
+        '400':
+          description: No hay un turno abierto para actualizar
+        '500':
+          description: Error al actualizar el turno tarde dos
+  /agregarNovedadAlTurnoTardeDos:
+    post:
+      summary: Agregar novedad al turno tarde dos
+      tags:
+        - Gestión VIP - Turnos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                novedad_tarde_dos:
+                  type: string
+                  description: Novedad del turno tarde dos
+                  example: "Novedad adicional"
+      responses:
+        '200':
+          description: Novedad agregada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Novedad agregada correctamente"
+        '400':
+          description: No hay un turno abierto para agregar novedad o falta la novedad
+        '403':
+          description: No tienes permiso para agregar novedades a este turno
+        '500':
+          description: Error al agregar la novedad
+  # -------------------------------
+  # Sección: Gestión de Premios VIP
+  # -------------------------------
+  /nuevoPremio:
+              post:
+                summary: Crear un nuevo premio
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                requestBody:
+                  required: true
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          numero_slot:
+                            type: string
+                            description: Número del slot
+                            example: "123"
+                          importe:
+                            type: number
+                            description: Importe del premio
+                            example: 1000.50
+                          cliente_id:
+                            type: integer
+                            description: ID del cliente
+                            example: 1
+                responses:
+                  '201':
+                    description: Premio creado correctamente
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            message:
+                              type: string
+                              example: "Premio creado correctamente"
+                  '400':
+                    description: Faltan datos obligatorios
+                  '500':
+                    description: Error al crear el premio
+  /editarPremio:
+              put:
+                summary: Editar un premio
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                parameters:
+                  - in: query
+                    name: id
+                    schema:
+                      type: integer
+                    required: true
+                    description: ID del premio a editar
+                    example: 1
+                requestBody:
+                  required: true
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          numero_slot:
+                            type: string
+                            description: Número del slot
+                            example: "123"
+                          importe:
+                            type: number
+                            description: Importe del premio
+                            example: 1000.50
+                          cliente_id:
+                            type: integer
+                            description: ID del cliente
+                            example: 1
+                responses:
+                  '200':
+                    description: Premio actualizado correctamente
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            message:
+                              type: string
+                              example: "Premio actualizado correctamente"
+                  '400':
+                    description: No hay datos nuevos para actualizar
+                  '404':
+                    description: Premio no encontrado
+                  '500':
+                    description: Error al actualizar el premio
+  /borrarPremio:
+              put:
+                summary: Borrar un premio
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                parameters:
+                  - in: query
+                    name: id
+                    schema:
+                      type: integer
+                    required: true
+                    description: ID del premio a borrar
+                    example: 1
+                responses:
+                  '200':
+                    description: Premio eliminado correctamente
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            message:
+                              type: string
+                              example: "Premio eliminado correctamente"
+                  '404':
+                    description: Premio no encontrado
+                  '500':
+                    description: Error al eliminar el premio
+  /obtenerPremiosDelTurnoAbierto:
+              get:
+                summary: Obtener premios del turno abierto
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                responses:
+                  '200':
+                    description: Lista de premios del turno abierto
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            premios:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Premio'
+                            importeTotal:
+                              type: number
+                              example: 5000.75
+                            cantidadPremios:
+                              type: integer
+                              example: 5
+                  '404':
+                    description: No hay premios en el turno abierto
+                  '500':
+                    description: Error al obtener los premios del turno abierto
+  /obtenerPremiosPorCliente:
+              get:
+                summary: Obtener premios por cliente
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                parameters:
+                  - in: query
+                    name: cliente_id
+                    schema:
+                      type: integer
+                    required: true
+                    description: ID del cliente
+                    example: 1
+                  - in: query
+                    name: fechaInicio
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de inicio para filtrar premios
+                    example: "2023-01-01"
+                  - in: query
+                    name: fechaFin
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de fin para filtrar premios
+                    example: "2023-01-31"
+                responses:
+                  '200':
+                    description: Lista de premios del cliente
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            premios:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Premio'
+                            importeTotal:
+                              type: number
+                              example: 5000.75
+                            cantidadPremios:
+                              type: integer
+                              example: 5
+                  '404':
+                    description: No hay premios para el cliente
+                  '500':
+                    description: Error al obtener los premios del cliente
+  /obtenerPremiosMensuales:
+              get:
+                summary: Obtener premios mensuales
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                parameters:
+                  - in: query
+                    name: fechaInicio
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de inicio para filtrar premios
+                    example: "2023-01-01"
+                  - in: query
+                    name: fechaFin
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de fin para filtrar premios
+                    example: "2023-01-31"
+                responses:
+                  '200':
+                    description: Lista de premios mensuales
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            premios:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Premio'
+                            importeTotal:
+                              type: number
+                              example: 5000.75
+                            cantidadPremios:
+                              type: integer
+                              example: 5
+                            top3Premios:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Premio'
+                            fechasSeleccionadas:
+                              type: object
+                              properties:
+                                fechaInicio:
+                                  type: string
+                                  format: date
+                                  example: "2023-01-01"
+                                fechaFin:
+                                  type: string
+                                  format: date
+                                  example: "2023-01-31"
+                                numeroMes:
+                                  type: integer
+                                  example: 1
+                                nombreMes:
+                                  type: string
+                                  example: "Enero"
+                  '404':
+                    description: No hay premios en el rango de fechas seleccionado
+                  '500':
+                    description: Error al obtener los premios mensuales
+  /obtenerPremiosMensualesAnuales:
+              get:
+                summary: Obtener premios mensuales anuales
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                responses:
+                  '200':
+                    description: Lista de premios mensuales anuales
+                    content:
+                      application/json:
+                        schema:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              mes:
+                                type: integer
+                                example: 1
+                              nombreMes:
+                                type: string
+                                example: "Enero"
+                              premios:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/Premio'
+                              importeTotal:
+                                type: number
+                                example: 5000.75
+                              cantidadPremios:
+                                type: integer
+                                example: 5
+                              top3Premios:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/Premio'
+                  '500':
+                    description: Error al obtener los premios mensuales anuales
+  /obtenerPremiosDiariosDeLaSemana:
+              get:
+                summary: Obtener premios diarios de la semana
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                responses:
+                  '200':
+                    description: Lista de premios diarios de la semana
+                    content:
+                      application/json:
+                        schema:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              dia:
+                                type: string
+                                example: "Lunes"
+                              fecha:
+                                type: string
+                                format: date
+                                example: "2023-01-01"
+                              premios:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/Premio'
+                              importeTotal:
+                                type: number
+                                example: 5000.75
+                              cantidadPremios:
+                                type: integer
+                                example: 5
+                              top3Premios:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/Premio'
+                  '500':
+                    description: Error al obtener los premios diarios de la semana
+  /obtenerPremiosDeSlotPorFecha:
+              get:
+                summary: Obtener premios de slot por fecha
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                parameters:
+                  - in: query
+                    name: fechaFrom
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de inicio para filtrar premios
+                    example: "2023-01-01"
+                  - in: query
+                    name: fechaTo
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de fin para filtrar premios
+                    example: "2023-01-31"
+                  - in: query
+                    name: registros
+                    schema:
+                      type: integer
+                    description: Número de registros a obtener
+                    example: 10
+                  - in: query
+                    name: numero_slot
+                    schema:
+                      type: string
+                    description: Número del slot
+                    example: "123"
+                responses:
+                  '200':
+                    description: Lista de premios de slot por fecha
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            premios:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Premio'
+                            importeTotal:
+                              type: number
+                              example: 5000.75
+                            cantidadPremios:
+                              type: integer
+                              example: 5
+                            ultimoPremioMayorImporte:
+                              $ref: '#/components/schemas/Premio'
+                  '404':
+                    description: No hay premios en el rango de fechas seleccionado
+                  '500':
+                    description: Error al obtener los premios por fecha
+  /obtenerPremiosSlotsPorFecha:
+              get:
+                summary: Obtener premios de slots por fecha
+                tags:
+                  - Gestión VIP - Premios
+                security:
+                  - bearerAuth: []
+                parameters:
+                  - in: query
+                    name: fechaInicio
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de inicio para filtrar premios
+                    example: "2023-01-01"
+                  - in: query
+                    name: fechaFin
+                    schema:
+                      type: string
+                      format: date
+                    description: Fecha de fin para filtrar premios
+                    example: "2023-01-31"
+                responses:
+                  '200':
+                    description: Lista de premios de slots por fecha
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            premios:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Premio'
+                            importeTotal:
+                              type: number
+                              example: 5000.75
+                            cantidadPremios:
+                              type: integer
+                              example: 5
+                  '404':
+                    description: No hay premios en el rango de fechas seleccionado
+                  '500':
+                    description: Error al obtener los premios por fecha        
+  # -------------------------------
+  # Sección: Registro de clientes VIP
+  # -------------------------------
+  /registroDeIngresoDeCliente:
+    post:
+      summary: Registrar ingreso de cliente
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                observacion:
+                  type: string
+                  description: Observación del ingreso
+                  example: "Sin novedad"
+      responses:
+        '201':
+          description: Registro de ingreso creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de ingreso creado correctamente"
+        '400':
+          description: Faltan datos obligatorios o no se puede crear un nuevo registro hasta que se registre el egreso del cliente actual
+        '500':
+          description: Error al crear el registro de ingreso
+  /modificarRegistroDeIngresoDeCliente:
+    put:
+      summary: Modificar registro de ingreso de cliente
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                observacion:
+                  type: string
+                  description: Observación del ingreso
+                  example: "Observación modificada"
+                ingreso:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de ingreso
+                  example: "2023-01-01T00:00:00Z"
+      responses:
+        '200':
+          description: Registro de ingreso modificado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de ingreso modificado correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '404':
+          description: No se encontró un registro de ingreso para el cliente actual
+        '500':
+          description: Error al modificar el registro de ingreso
+  /registroDeEgresoDeCliente:
+    put:
+      summary: Registrar egreso de cliente
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: cliente_id
+          schema:
+            type: integer
+          required: true
+          description: ID del cliente
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                observacion:
+                  type: string
+                  description: Observación del egreso
+                  example: "Observación del egreso"
+      responses:
+        '200':
+          description: Registro de egreso actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de egreso actualizado correctamente"
+                  permanencia:
+                    type: string
+                    example: "2 horas y 30 minutos"
+        '400':
+          description: Faltan datos obligatorios
+        '404':
+          description: Registro no encontrado
+        '500':
+          description: Error al actualizar el registro de egreso
+  /modificarRegistroDeEgresoDeCliente:
+    put:
+      summary: Modificar registro de egreso de cliente
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: cliente_id
+          schema:
+            type: integer
+          required: true
+          description: ID del cliente
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                observacion:
+                  type: string
+                  description: Observación del egreso
+                  example: "Observación modificada"
+                egreso:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de egreso
+                  example: "2023-01-01T00:00:00Z"
+      responses:
+        '200':
+          description: Registro de egreso modificado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de egreso modificado correctamente"
+                  permanencia:
+                    type: string
+                    example: "2 horas y 30 minutos"
+        '400':
+          description: Faltan datos obligatorios
+        '404':
+          description: Registro no encontrado
+        '500':
+          description: Error al modificar el registro de egreso
+  /eliminarRegistroDeCliente:
+    put:
+      summary: Eliminar registro de cliente
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: registro_id
+          schema:
+            type: integer
+          required: true
+          description: ID del registro
+          example: 1
+        - in: query
+          name: cliente_id
+          schema:
+            type: integer
+          required: true
+          description: ID del cliente
+          example: 1
+      responses:
+        '200':
+          description: Registro eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro eliminado correctamente"
+        '404':
+          description: Registro no encontrado
+        '500':
+          description: Error al eliminar el registro
+  /agregarObservacionACliente:
+    put:
+      summary: Agregar observación a cliente
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: registro_id
+          schema:
+            type: integer
+          required: true
+          description: ID del registro
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                observacion:
+                  type: string
+                  description: Observación a agregar
+                  example: "Nueva observación"
+      responses:
+        '200':
+          description: Novedad agregada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Novedad agregada correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '404':
+          description: Registro no encontrado
+        '500':
+          description: Error al agregar la observación
+  /obtenerRegistrosDeClientesTurnoAbierto:
+    get:
+      summary: Obtener registros de clientes del turno abierto
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de registros de clientes del turno abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registros:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegistroCliente'
+                  permanenciaTotal:
+                    type: string
+                    example: "10 horas y 30 minutos"
+                  valorCambioTotal:
+                    type: number
+                    example: 5000.75
+                  cantidadCambios:
+                    type: integer
+                    example: 5
+        '404':
+          description: No hay registros de clientes para el turno abierto
+        '500':
+          description: Error al obtener los registros de clientes del turno abierto
+  /obtenerRegistrosDeClientesPorFecha:
+    get:
+      summary: Obtener registros de clientes por fecha
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar registros
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar registros
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Lista de registros de clientes por fecha
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registros:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegistroCliente'
+                  permanenciaTotal:
+                    type: string
+                    example: "10 horas y 30 minutos"
+                  valorCambioTotal:
+                    type: number
+                    example: 5000.75
+                  cantidadCambios:
+                    type: integer
+                    example: 5
+        '404':
+          description: No hay registros de clientes en el rango de fechas seleccionado
+        '500':
+          description: Error al obtener los registros de clientes por fecha
+  /modificarClienteUObservacionEnRegistro:
+    put:
+      summary: Modificar cliente u observación en registro
+      tags:
+        - Gestión VIP - Registro de Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: registro_id
+          schema:
+            type: integer
+          required: true
+          description: ID del registro
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                observacion:
+                  type: string
+                  description: Observación a modificar
+                  example: "Observación modificada"
+      responses:
+        '200':
+          description: Registro actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro actualizado correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Registro no encontrado
+        '500':
+          description: Error al actualizar el registro
+
+    RegistroCliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        ingreso:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        egreso:
+          type: string
+          format: date-time
+          example: "2023-01-01T02:00:00Z"
+        observacion:
+          type: string
+          example: "Sin novedad"
+        permanencia:
+          type: number
+          example: 2
+        valor_cambio_total:
+          type: number
+          example: 1000.50
+        cliente:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nombre:
+              type: string
+              example: "Juan"
+            apellido:
+              type: string
+              example: "Pérez"
+            categoriaCliente:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                  example: "VIP"
+        usuario_ingreso:
+          type: object
+          properties:
+            nombre:
+              type: string
+              example: "Admin"
+            apellido:
+              type: string
+              example: "User"
+            legajo:
+              type: string
+              example: "12345"
+        usuario_egreso:
+          type: object
+          properties:
+            nombre:
+              type: string
+              example: "Admin"
+            apellido:
+              type: string
+              example: "User"
+            legajo:
+              type: string
+              example: "12345"
+  # -------------------------------
+  # Sección: Canjes de productos VIP
+  # -------------------------------
+  /canjeDeProducto:
+    post:
+      summary: Crear un nuevo canje de producto
+      tags:
+        - Gestión VIP - Canjes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                producto:
+                  type: string
+                  description: Producto canjeado
+                  example: "Producto A"
+                cantidad:
+                  type: integer
+                  description: Cantidad de productos canjeados
+                  example: 2
+      responses:
+        '201':
+          description: Canje de producto creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Canje de producto creado correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '500':
+          description: Error al crear el canje de producto
+  /modificarCanjeDeProducto:
+    put:
+      summary: Modificar un canje de producto
+      tags:
+        - Gestión VIP - Canjes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del canje a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                producto:
+                  type: string
+                  description: Producto canjeado
+                  example: "Producto A"
+                cantidad:
+                  type: integer
+                  description: Cantidad de productos canjeados
+                  example: 2
+      responses:
+        '200':
+          description: Canje de producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Canje de producto actualizado correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Canje no encontrado
+        '500':
+          description: Error al actualizar el canje de producto
+  /borrarCanjeDeProducto:
+    put:
+      summary: Borrar un canje de producto
+      tags:
+        - Gestión VIP - Canjes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del canje a borrar
+          example: 1
+      responses:
+        '200':
+          description: Canje de producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Canje de producto eliminado correctamente"
+        '404':
+          description: Canje no encontrado
+        '500':
+          description: Error al eliminar el canje de producto
+  /obtenerCanjesDeProductos:
+    get:
+      summary: Obtener canjes de productos
+      tags:
+        - Gestión VIP - Canjes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de canjes de productos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  canjes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Canje'
+                  cantidadTotal:
+                    type: integer
+                    example: 10
+        '404':
+          description: No se encontraron canjes de productos
+        '500':
+          description: Error al obtener los canjes de productos
+  /obtenerCanjesDeProductosDelTunoAbierto:
+    get:
+      summary: Obtener canjes de productos del turno abierto
+      tags:
+        - Gestión VIP - Canjes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de canjes de productos del turno abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  canjes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Canje'
+                  cantidadTotal:
+                    type: integer
+                    example: 10
+        '404':
+          description: No se encontraron canjes de productos para el turno abierto
+        '500':
+          description: Error al obtener los canjes de productos del turno abierto
+  /obtenerCanjesDeProductosPorFecha:
+    get:
+      summary: Obtener canjes de productos por fecha
+      tags:
+        - Gestión VIP - Canjes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar canjes
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar canjes
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Lista de canjes de productos por fecha
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  canjes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Canje'
+                  cantidadTotal:
+                    type: integer
+                    example: 10
+        '404':
+          description: No se encontraron canjes de productos en el rango de fechas seleccionado
+        '500':
+          description: Error al obtener los canjes de productos por fecha
+  # -------------------------------
+  # Sección: Venta de tickets VIP
+  # -------------------------------
+  /ventaDeTicket:
+    post:
+      summary: Crear una nueva venta de ticket
+      tags:
+        - Gestión VIP - Venta de tickets
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                monto:
+                  type: number
+                  description: Monto de la venta
+                  example: 1000.50
+      responses:
+        '201':
+          description: Venta de ticket creada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Venta de ticket creada correctamente"
+        '400':
+          description: Faltan datos obligatorios o monto inválido
+        '500':
+          description: Error al crear la venta de ticket
+  /modificarVentaDeTicket:
+    put:
+      summary: Modificar una venta de ticket
+      tags:
+        - Gestión VIP - Venta de tickets
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del ticket a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                monto:
+                  type: number
+                  description: Monto de la venta
+                  example: 1000.50
+      responses:
+        '200':
+          description: Venta de ticket actualizada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Venta de ticket actualizada correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Ticket no encontrado
+        '500':
+          description: Error al actualizar la venta de ticket
+  /borrarVentaDeTicket:
+    put:
+      summary: Borrar una venta de ticket
+      tags:
+        - Gestión VIP - Venta de tickets
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del ticket a borrar
+          example: 1
+      responses:
+        '200':
+          description: Venta de ticket eliminada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Venta de ticket eliminada correctamente"
+        '404':
+          description: Ticket no encontrado
+        '500':
+          description: Error al eliminar la venta de ticket
+  /obtenerVentasDeTickets:
+    get:
+      summary: Obtener ventas de tickets
+      tags:
+        - Gestión VIP - Venta de tickets
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de ventas de tickets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ventas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VentaTicket'
+                  valorTotal:
+                    type: number
+                    example: 5000.75
+        '404':
+          description: No se encontraron ventas de tickets
+        '500':
+          description: Error al obtener las ventas de tickets
+  /obtenerVentasDeTicketsDelTurnoAbierto:
+    get:
+      summary: Obtener ventas de tickets del turno abierto
+      tags:
+        - Gestión VIP - Venta de tickets
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de ventas de tickets del turno abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ventas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VentaTicket'
+                  valorTotal:
+                    type: number
+                    example: 5000.75
+                  totalCambios:
+                    type: integer
+                    example: 5
+        '404':
+          description: No se encontraron ventas de tickets para el turno abierto
+        '500':
+          description: Error al obtener las ventas de tickets del turno abierto
+  /obtenerVentasDeTicketsPorFecha:
+    get:
+      summary: Obtener ventas de tickets por fecha
+      tags:
+        - Gestión VIP - Venta de tickets
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: fechaInicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar ventas
+          example: "2023-01-01"
+        - in: query
+          name: fechaFin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar ventas
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Lista de ventas de tickets por fecha
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ventas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VentaTicket'
+                  valorTotal:
+                    type: number
+                    example: 5000.75
+                  totalCambios:
+                    type: integer
+                    example: 5
+        '404':
+          description: No se encontraron ventas de tickets en el rango de fechas seleccionado
+        '500':
+          description: Error al obtener las ventas de tickets por fecha
+  # -------------------------------
+  # Sección: Clientes VIP
+  # -------------------------------
+  /obtenerClientesVip:
+    get:
+      summary: Obtener clientes VIP
+      tags:
+        - Gestión VIP - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de clientes VIP
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'
+        '404':
+          description: No se encontraron clientes
+        '500':
+          description: Error al obtener los clientes VIP
+  /obtenerClientesVipParaIngreso:
+    get:
+      summary: Obtener clientes VIP para ingreso
+      tags:
+        - Gestión VIP - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de clientes VIP para ingreso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClienteConCumpleanos'
+        '404':
+          description: No se encontraron clientes
+        '500':
+          description: Error al obtener los clientes VIP
+  /obtenerListaDeClientesVip:
+    get:
+      summary: Obtener lista de clientes VIP
+      tags:
+        - Gestión VIP - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de clientes VIP
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClienteConDetalles'
+        '404':
+          description: No se encontraron clientes
+        '500':
+          description: Error al obtener los clientes VIP
+  /editarDetallesDeCliente:
+    put:
+      summary: Editar detalles de cliente VIP
+      tags:
+        - Gestión VIP - Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del cliente
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fecha_nacimiento:
+                  type: string
+                  format: date
+                  description: Fecha de nacimiento del cliente
+                  example: "1990-01-01"
+                fecha_alta:
+                  type: string
+                  format: date
+                  description: Fecha de alta del cliente
+                  example: "2023-01-01"
+                fecha_baja:
+                  type: string
+                  format: date
+                  description: Fecha de baja del cliente
+                  example: "2023-12-31"
+                motivo_baja:
+                  type: string
+                  description: Motivo de baja del cliente
+                  example: "Cambio de residencia"
+                gusto_gastronomico:
+                  type: string
+                  description: Gusto gastronómico del cliente
+                  example: "Italiano"
+                equipo_futbol:
+                  type: string
+                  description: Equipo de fútbol del cliente
+                  example: "River Plate"
+                profesion:
+                  type: string
+                  description: Profesión del cliente
+                  example: "Ingeniero"
+                gusto_musical:
+                  type: string
+                  description: Gusto musical del cliente
+                  example: "Rock"
+      responses:
+        '200':
+          description: Detalles del cliente actualizados correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Detalles del cliente actualizados correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Detalles del cliente no encontrados
+        '500':
+          description: Error al actualizar los detalles del cliente
+  # -------------------------------
+  # Sección: Gastronomía VIP
+  # -------------------------------
+  /crearTipoDePlato:
+    post:
+      summary: Crear un nuevo tipo de plato
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                  description: Tipo de plato
+                  example: "Entrada"
+      responses:
+        '201':
+          description: Tipo de plato creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de plato creado correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '500':
+          description: Error al crear el tipo de plato
+  /modificarTipoDePlato:
+    put:
+      summary: Modificar un tipo de plato
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del tipo de plato a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                  description: Tipo de plato
+                  example: "Entrada"
+      responses:
+        '200':
+          description: Tipo de plato actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de plato actualizado correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Tipo de plato no encontrado
+        '500':
+          description: Error al actualizar el tipo de plato
+  /borrarTipoDePlato:
+    put:
+      summary: Borrar un tipo de plato
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del tipo de plato a borrar
+          example: 1
+      responses:
+        '200':
+          description: Tipo de plato eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de plato eliminado correctamente"
+        '404':
+          description: Tipo de plato no encontrado
+        '500':
+          description: Error al eliminar el tipo de plato
+  /crearTipoDeComida:
+    post:
+      summary: Crear un nuevo tipo de comida
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                  description: Tipo de comida
+                  example: "Desayuno"
+      responses:
+        '201':
+          description: Tipo de comida creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de comida creado correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '500':
+          description: Error al crear el tipo de comida
+  /modificarTipoDeComida:
+    put:
+      summary: Modificar un tipo de comida
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del tipo de comida a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                  description: Tipo de comida
+                  example: "Desayuno"
+      responses:
+        '200':
+          description: Tipo de comida actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de comida actualizado correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Tipo de comida no encontrado
+        '500':
+          description: Error al actualizar el tipo de comida
+  /borrarTipoDeComida:
+    put:
+      summary: Borrar un tipo de comida
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del tipo de comida a borrar
+          example: 1
+      responses:
+        '200':
+          description: Tipo de comida eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Tipo de comida eliminado correctamente"
+        '404':
+          description: Tipo de comida no encontrado
+        '500':
+          description: Error al eliminar el tipo de comida
+  /obtenerTipoDePlatos:
+    get:
+      summary: Obtener tipos de platos
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de tipos de platos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TipoPlato'
+        '404':
+          description: No se encontraron tipos de platos
+        '500':
+          description: Error al obtener los tipos de platos
+  /obtenerTipoComidas:
+    get:
+      summary: Obtener tipos de comidas
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de tipos de comidas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TipoComida'
+        '404':
+          description: No se encontraron tipos de comidas
+        '500':
+          description: Error al obtener los tipos de comidas
+  /crearMenuVip:
+    post:
+      summary: Crear un nuevo menú VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: Nombre del menú
+                  example: "Menú Especial"
+                tipo_de_plato_id:
+                  type: integer
+                  description: ID del tipo de plato
+                  example: 1
+                detalle:
+                  type: string
+                  description: Detalle del menú
+                  example: "Detalle del menú"
+                cantidad:
+                  type: integer
+                  description: Cantidad disponible
+                  example: 10
+      responses:
+        '201':
+          description: Menú VIP creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Menú VIP creado correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '500':
+          description: Error al crear el menú VIP
+  /modificarMenuVip:
+    put:
+      summary: Modificar un menú VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del menú a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: Nombre del menú
+                  example: "Menú Especial"
+                tipo_de_plato_id:
+                  type: integer
+                  description: ID del tipo de plato
+                  example: 1
+                detalle:
+                  type: string
+                  description: Detalle del menú
+                  example: "Detalle del menú"
+                cantidad:
+                  type: integer
+                  description: Cantidad disponible
+                  example: 10
+      responses:
+        '200':
+          description: Menú VIP actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Menú VIP actualizado correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Menú no encontrado
+        '500':
+          description: Error al actualizar el menú VIP
+  /borrarMenuVip:
+    put:
+      summary: Borrar un menú VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del menú a borrar
+          example: 1
+      responses:
+        '200':
+          description: Menú VIP eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Menú VIP eliminado correctamente"
+        '404':
+          description: Menú no encontrado
+        '500':
+          description: Error al eliminar el menú VIP
+  /menuItemDisponibleEditar:
+    put:
+      summary: Editar disponibilidad de un ítem del menú
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del menú a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                disponible:
+                  type: boolean
+                  description: Disponibilidad del ítem
+                  example: true
+      responses:
+        '200':
+          description: Menú VIP actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Menú VIP actualizado correctamente"
+        '400':
+          description: El campo disponible debe ser un booleano
+        '404':
+          description: Menú no encontrado
+        '500':
+          description: Error al actualizar la disponibilidad del menú
+  /obtenerMenusVip:
+    get:
+      summary: Obtener menús VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de menús VIP
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuVip'
+        '404':
+          description: No se encontraron menús VIP
+        '500':
+          description: Error al obtener los menús VIP
+  /crearRegistroGastronomiaVip:
+    post:
+      summary: Crear un nuevo registro de gastronomía VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                menu_vip_id:
+                  type: integer
+                  description: ID del menú VIP
+                  example: 1
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                tipo_comida_id:
+                  type: integer
+                  description: ID del tipo de comida
+                  example: 1
+                observacion:
+                  type: string
+                  description: Observación del registro
+                  example: "Sin observación"
+                cantidad:
+                  type: integer
+                  description: Cantidad de productos
+                  example: 2
+      responses:
+        '201':
+          description: Registro de gastronomía VIP creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de gastronomía VIP creado correctamente"
+        '400':
+          description: Faltan datos obligatorios
+        '500':
+          description: Error al crear el registro de gastronomía VIP
+  /modificarRegistroGastronomiaVip:
+    put:
+      summary: Modificar un registro de gastronomía VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del registro a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                menu_vip_id:
+                  type: integer
+                  description: ID del menú VIP
+                  example: 1
+                cliente_id:
+                  type: integer
+                  description: ID del cliente
+                  example: 1
+                tipo_comida_id:
+                  type: integer
+                  description: ID del tipo de comida
+                  example: 1
+                observacion:
+                  type: string
+                  description: Observación del registro
+                  example: "Sin observación"
+                cantidad:
+                  type: integer
+                  description: Cantidad de productos
+                  example: 2
+      responses:
+        '200':
+          description: Registro de gastronomía VIP actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de gastronomía VIP actualizado correctamente"
+        '400':
+          description: No hay datos nuevos para actualizar
+        '404':
+          description: Registro de gastronomía VIP no encontrado
+        '500':
+          description: Error al actualizar el registro de gastronomía VIP
+  /borrarRegistroGastronomiaVip:
+    put:
+      summary: Borrar un registro de gastronomía VIP
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del registro a borrar
+          example: 1
+      responses:
+        '200':
+          description: Registro de gastronomía VIP eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registro de gastronomía VIP eliminado correctamente"
+        '404':
+          description: Registro de gastronomía VIP no encontrado
+        '500':
+          description: Error al eliminar el registro de gastronomía VIP
+  /obtenerRegistrosGastronomiaVipTurnoAbierto:
+    get:
+      summary: Obtener registros de gastronomía VIP del turno abierto
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de registros de gastronomía VIP del turno abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registros:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegistroGastronomiaVip'
+                  totalPlatos:
+                    type: integer
+                    example: 10
+        '404':
+          description: No se encontraron registros de gastronomía VIP para el turno abierto
+        '500':
+          description: Error al obtener los registros de gastronomía VIP del turno abierto
+  /marcarEntregaDePlato:
+    put:
+      summary: Marcar entrega de plato
+      tags:
+        - Gestión VIP - Gastronomía
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del registro a modificar
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                observacion:
+                  type: string
+                  description: Observación de la entrega
+                  example: "Entregado sin observación"
+      responses:
+        '200':
+          description: Plato entregado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Plato entregado correctamente"
+        '404':
+          description: Registro de gastronomía VIP no encontrado
+        '500':
+          description: Error al marcar la entrega del plato
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

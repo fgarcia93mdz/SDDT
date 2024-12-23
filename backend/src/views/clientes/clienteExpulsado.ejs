@@ -1,0 +1,30 @@
+<%- include('../../views/header_email.ejs') %>
+
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+
+    <p style="margin-bottom: 20px; font-size: 20px; color: #d22d2d; text-align: center;">
+      <strong>
+        CLIENTE EXPULSADO
+      </strong>
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      Por medio del presente se informa que se ha identificado al cliente:
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      <strong><%= cliente.nombre %> <%= cliente.apellido %> </strong>
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      DNI: <strong style="color: #d22d2d;"><%= cliente.dni %></strong>
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      Quien se encuentra expulsado, a partir de la fecha: <strong style="color: #d22d2d;"> <%= fecha_expulsion %> </strong>
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+      Por el/los siguientes motivo/s: <strong style="color: #d22d2d;"><%= expulsado.motivo %></strong>
+    </p>
+    <p style="margin-bottom: 20px; font-size: 16px; color: #555;">
+            Equipo de juegos, Casino Trilenium.
+    </p>
+  </div>
+
+  <%- include('../../views/footer_email') %>

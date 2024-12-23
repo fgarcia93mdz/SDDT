@@ -1,0 +1,492 @@
+openapi: 3.0.0
+info:
+  title: S.I.G - Sistema integral de gestión
+  version: 1.0.0
+  description: Documentación de SIG API, endpoints consumibles para sistemas de gestión de Guardarropa y clientes VIP.
+tags:
+  - name: Clientes
+    description: Endpoints relacionados con la gestión de clientes
+paths:
+  /registrar:
+    post:
+      summary: Registrar un nuevo cliente
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: Nombre del cliente
+                  example: "Juan"
+                apellido:
+                  type: string
+                  description: Apellido del cliente
+                  example: "Pérez"
+                dni:
+                  type: string
+                  description: DNI del cliente
+                  example: "12345678"
+                telefono:
+                  type: string
+                  description: Teléfono del cliente
+                  example: "123456789"
+                email:
+                  type: string
+                  description: Email del cliente
+                  example: "juan.perez@example.com"
+                estado_clientes_id:
+                  type: integer
+                  description: ID del estado del cliente
+                  example: 1
+                categoria_cliente_id:
+                  type: integer
+                  description: ID de la categoría del cliente
+                  example: 2
+      responses:
+        '200':
+          description: Cliente registrado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Cliente registrado con éxito"
+                  cliente:
+                    $ref: '#/components/schemas/Cliente'
+        '400':
+          description: El cliente ya se encuentra registrado o faltan completar algunos datos
+        '500':
+          description: Error al registrar el cliente
+  /obtenerClientes:
+    get:
+      summary: Obtener todos los clientes
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cliente'
+        '500':
+          description: Error al obtener los clientes
+  /obtenerCliente:
+    get:
+      summary: Obtener un cliente por DNI
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: dni
+          schema:
+            type: string
+          required: true
+          description: DNI del cliente
+          example: "12345678"
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cliente:
+                    $ref: '#/components/schemas/Cliente'
+                  cantidadPrendas:
+                    type: integer
+                    example: 5
+                  prendasOlvido:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Prenda'
+        '404':
+          description: Cliente no encontrado
+        '500':
+          description: Error al obtener el cliente
+  /actualizarCliente:
+    put:
+      summary: Actualizar un cliente
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: Nombre del cliente
+                  example: "Juan"
+                apellido:
+                  type: string
+                  description: Apellido del cliente
+                  example: "Pérez"
+                dni:
+                  type: string
+                  description: DNI del cliente
+                  example: "12345678"
+                telefono:
+                  type: string
+                  description: Teléfono del cliente
+                  example: "123456789"
+                email:
+                  type: string
+                  description: Email del cliente
+                  example: "juan.perez@example.com"
+                estado_clientes_id:
+                  type: integer
+                  description: ID del estado del cliente
+                  example: 1
+                dni_original:
+                  type: string
+                  description: DNI original del cliente
+                  example: "12345678"
+                categoria_cliente_id:
+                  type: integer
+                  description: ID de la categoría del cliente
+                  example: 2
+      responses:
+        '200':
+          description: Cliente actualizado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Cliente actualizado con éxito"
+                  cliente:
+                    $ref: '#/components/schemas/Cliente'
+        '404':
+          description: Cliente no encontrado
+        '400':
+          description: El DNI ya se encuentra registrado
+        '500':
+          description: Error al actualizar el cliente
+  /registrarExpulsado:
+    post:
+      summary: Registrar un cliente expulsado
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dni:
+                  type: string
+                  description: DNI del cliente
+                  example: "12345678"
+                nombre:
+                  type: string
+                  description: Nombre del cliente
+                  example: "Juan"
+                apellido:
+                  type: string
+                  description: Apellido del cliente
+                  example: "Pérez"
+                email:
+                  type: string
+                  description: Email del cliente
+                  example: "juan.perez@example.com"
+                telefono:
+                  type: string
+                  description: Teléfono del cliente
+                  example: "123456789"
+                motivo:
+                  type: string
+                  description: Motivo de la expulsión
+                  example: "Comportamiento inapropiado"
+                fecha_expulsion:
+                  type: string
+                  format: date-time
+                  description: Fecha de la expulsión
+                  example: "2023-01-01T00:00:00Z"
+      responses:
+        '200':
+          description: Cliente expulsado registrado con éxito
+        '500':
+          description: Error al registrar el cliente expulsado
+  /obtenerEstadoCliente:
+    get:
+      summary: Obtener estados de clientes
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de estados de clientes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estadosClientes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EstadoCliente'
+        '500':
+          description: Error al obtener los estados de los clientes
+  /obtenerDetallesDeClienteId:
+    get:
+      summary: Obtener detalles de un cliente por ID
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id_cliente
+          schema:
+            type: integer
+          required: true
+          description: ID del cliente
+          example: 1
+      responses:
+        '200':
+          description: Detalles del cliente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detallesClientes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ClienteDetalle'
+                  cumpleAnios:
+                    type: string
+                    example: "Hoy cumple 30 años"
+                  cumpleAniosHoy:
+                    type: string
+                    example: "true"
+        '404':
+          description: Cliente no encontrado
+        '500':
+          description: Error al obtener los detalles del cliente
+  /obtenerDniClientes:
+    get:
+      summary: Obtener DNIs de clientes
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de DNIs de clientes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dniList:
+                    type: array
+                    items:
+                      type: string
+                    example: ["12345678", "87654321"]
+        '500':
+          description: Error al obtener los DNIs de los clientes
+  /eliminarCliente:
+    put:
+      summary: Eliminar un cliente
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dni:
+                  type: string
+                  description: DNI del cliente
+                  example: "12345678"
+      responses:
+        '200':
+          description: Cliente eliminado con éxito
+        '404':
+          description: Cliente no encontrado
+        '500':
+          description: Error al eliminar el cliente
+  /obtenerCategoriasHit:
+    get:
+      summary: Obtener categorías hit
+      tags:
+        - Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de categorías hit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categoriasHit:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CategoriaCliente'
+        '500':
+          description: Error al obtener las categorías hit
+components:
+  schemas:
+    Cliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Juan"
+        apellido:
+          type: string
+          example: "Pérez"
+        dni:
+          type: string
+          example: "12345678"
+        telefono:
+          type: string
+          example: "123456789"
+        email:
+          type: string
+          example: "juan.perez@example.com"
+        estado_clientes_id:
+          type: integer
+          example: 1
+        categoria_cliente_id:
+          type: integer
+          example: 2
+    EstadoCliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tipo:
+          type: string
+          example: "Activo"
+    Prenda:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fecha_de_ingreso:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        usuario_ingreso_id:
+          type: integer
+          example: 1
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrendaDetalle'
+    PrendaDetalle:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        clase_prenda_id:
+          type: integer
+          example: 1
+        ubicacion:
+          type: string
+          example: "Estante 3"
+        detalle:
+          type: string
+          example: "Camisa blanca"
+        prenda_id:
+          type: integer
+          example: 1
+        clase_prenda:
+          $ref: '#/components/schemas/ClasePrenda'
+    ClasePrenda:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tipo:
+          type: string
+          example: "Camisa"
+    ClienteDetalle:
+      type: object
+      properties:
+        fecha_nacimiento:
+          type: string
+          format: date
+          example: "1990-01-01"
+        fecha_alta:
+          type: string
+          format: date
+          example: "2023-01-01"
+        fecha_baja:
+          type: string
+          format: date
+          example: "2023-12-31"
+        motivo_baja:
+          type: string
+          example: "Cambio de residencia"
+        gusto_gastronomico:
+          type: string
+          example: "Italiano"
+        equipo_futbol:
+          type: string
+          example: "River Plate"
+        profesion:
+          type: string
+          example: "Ingeniero"
+        gusto_musical:
+          type: string
+          example: "Rock"
+    CategoriaCliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tipo:
+          type: string
+          example: "VIP"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
